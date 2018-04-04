@@ -1,0 +1,14 @@
+<phpunit bootstrap="./vendor/autoload.php"
+         convertErrorsToExceptions="true"
+         convertWarningsToExceptions="true"
+         convertNoticesToExceptions="true"
+         colors="true">
+
+    <testsuites>
+
+        <testsuite name="Banggood Test Suite">
+            <directory>./tests</directory>
+        </testsuite>
+    </testsuites>
+
+</phpunit>
