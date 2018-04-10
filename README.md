@@ -10,3 +10,12 @@ Install the package via composer using :
 ```
 composer require bipaulie/banggood-php-sdk
 ```
+
+Make sure you autoload the annotations before you use the SDK by including the following line of code before instantiating the SDK
+```php 
+/**
+ * Autoload Annotations
+ * This is used to deserialize a JSON string intro an object
+ */
+\Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
+```
