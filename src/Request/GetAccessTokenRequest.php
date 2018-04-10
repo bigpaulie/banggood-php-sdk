@@ -2,19 +2,33 @@
 
 namespace bigpaulie\banggood\Request;
 
+use bigpaulie\banggood\Interfaces\RequestInterface;
+
 /**
  * Class GetAccessTokenRequest
  * @package bigpaulie\banggood\Request
  */
-class GetAccessTokenRequest
+class GetAccessTokenRequest implements RequestInterface
 {
     /**
-     * @var string $appId
+     * @var array $parameters
      */
-    private $appId;
+    private $parameters = [];
 
     /**
-     * @var string $appSecret
+     * GetAccessTokenRequest constructor.
+     * @param array $parameters
      */
-    private $appSecret;
+    public function __construct(array $parameters = [])
+    {
+        $this->parameters = $parameters;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParameters(): array
+    {
+        return $this->parameters;
+    }
 }

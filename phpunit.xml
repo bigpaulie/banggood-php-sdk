@@ -1,4 +1,4 @@
-<phpunit bootstrap="./vendor/autoload.php"
+<phpunit bootstrap="./tests/bootstrap.php"
          convertErrorsToExceptions="true"
          convertWarningsToExceptions="true"
          convertNoticesToExceptions="true"

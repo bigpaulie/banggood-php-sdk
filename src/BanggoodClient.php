@@ -1,8 +1,13 @@
 <?php
 
 namespace bigpaulie\banggood;
+
+use bigpaulie\banggood\Client\BaseClient;
+use bigpaulie\banggood\Client\Credentials;
+use bigpaulie\banggood\Exception\BanggoodException;
 use bigpaulie\banggood\Request\GetAccessTokenRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
+use GuzzleHttp\Client;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\Serializer;
@@ -12,40 +17,22 @@ use JMS\Serializer\SerializerBuilder;
  * Class BanggoodClient
  * @package bigpaulie\banggood
  */
-class BanggoodClient
+class BanggoodClient extends BaseClient
 {
     /**
-     * @var string $appId
-     */
-    private $appId;
-
-    /**
-     * @var string $appSecret
-     */
-    private $appSecret;
-
-    /**
-     * @var null|string $token
-     */
-    private $token = null;
-
-    /**
-     * @var Serializer
-     */
-    private $serializer;
-
-    /**
      * BanggoodClient constructor.
-     * @param string $appId
-     * @param string $appSecret
-     * @param null|string $token
+     * @param Credentials $credentials
+     * @param Client $client
      */
-    public function __construct(string $appId, string $appSecret, $token = null)
+    public function __construct(Credentials $credentials, Client $client)
     {
-        $this->appId = $appId;
-        $this->appSecret = $appSecret;
-        $this->token = $token;
+        /** @var Client http */
+        $this->http = $client;
 
+        /** @var Credentials credentials */
+        $this->credentials = $credentials;
+
+        /** @var Serializer serializer */
         $this->serializer = SerializerBuilder::create()
             ->setPropertyNamingStrategy(
                 new SerializedNameAnnotationStrategy(
@@ -54,8 +41,15 @@ class BanggoodClient
             )->build();
     }
 
+    /**
+     * @param GetAccessTokenRequest $request
+     * @return GetAccessTokenResponse
+     * @throws BanggoodException
+     */
     public function getAccessToken(GetAccessTokenRequest $request):GetAccessTokenResponse
     {
-
+        /** @var GetAccessTokenResponse $response */
+        $response = $this->request(__FUNCTION__, $request);
+        return $response;
     }
 }

@@ -3,12 +3,13 @@
 namespace bigpaulie\banggood\Response;
 
 use JMS\Serializer\Annotation\Type;
+use bigpaulie\banggood\Interfaces\ResponseInterface;
 
 /**
  * Class BaseResponse
  * @package bigpaulie\banggood\Response
  */
-abstract class BaseResponse
+abstract class BaseResponse implements ResponseInterface
 {
     /**
      * @var int $code
@@ -16,4 +17,11 @@ abstract class BaseResponse
      * @Type("int")
      */
     public $code;
+
+    /**
+     * @var string $msg
+     *
+     * @Type("string")
+     */
+    public $msg;
 }
