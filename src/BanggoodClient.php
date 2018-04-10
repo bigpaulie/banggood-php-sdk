@@ -7,8 +7,10 @@ use bigpaulie\banggood\Client\Credentials;
 use bigpaulie\banggood\Exception\BanggoodException;
 use bigpaulie\banggood\Request\GetAccessTokenRequest;
 use bigpaulie\banggood\Request\GetCategoryListRequest;
+use bigpaulie\banggood\Request\GetProductListRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
 use bigpaulie\banggood\Response\GetCategoryListResponse;
+use bigpaulie\banggood\Response\GetProductListResponse;
 use GuzzleHttp\Client;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
@@ -65,6 +67,20 @@ class BanggoodClient extends BaseClient
     public function getCategoryList(GetCategoryListRequest $request): GetCategoryListResponse
     {
         /** @var GetCategoryListResponse $response */
+        $response = $this->request(__FUNCTION__, $request);
+        return $response;
+    }
+
+    /**
+     * @param GetProductListRequest $request
+     * @return GetProductListResponse
+     * @throws BanggoodException
+     *
+     * @see https://api.banggood.com/index.php?com=document&article_id=10
+     */
+    public function getProductList(GetProductListRequest $request): GetProductListResponse
+    {
+        /** @var GetProductListResponse $response */
         $response = $this->request(__FUNCTION__, $request);
         return $response;
     }

@@ -3,6 +3,7 @@
 namespace bigpaulie\banggood\Response;
 
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\SerializedName;
 use bigpaulie\banggood\Interfaces\ResponseInterface;
 
 /**
@@ -24,4 +25,34 @@ abstract class BaseResponse implements ResponseInterface
      * @Type("string")
      */
     public $msg;
+
+    /**
+     * @var int $page
+     *
+     * @Type("int")
+     */
+    public $page;
+
+    /**
+     * @var int $pageTotal
+     *
+     * @Type("int")
+     * @SerializedName("page_total")
+     */
+    public $pageTotal;
+
+    /**
+     * @var int
+     *
+     * @Type("int")
+     * @SerializedName("page_size")
+     */
+    public $pageSize;
+
+    /**
+     * @var string $lang
+     *
+     * @Type("string")
+     */
+    public $lang;
 }

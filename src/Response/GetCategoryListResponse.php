@@ -12,30 +12,6 @@ use JMS\Serializer\Annotation\SerializedName;
  */
 class GetCategoryListResponse extends BaseResponse
 {
-
-    /**
-     * @var int $page
-     *
-     * @Type("int")
-     */
-    public $page;
-
-    /**
-     * @var int $pageTotal
-     *
-     * @Type("int")
-     * @SerializedName("page_total")
-     */
-    public $pageTotal;
-
-    /**
-     * @var int
-     *
-     * @Type("int")
-     * @SerializedName("page_size")
-     */
-    public $pageSize;
-
     /**
      * @var int $catTotal
      *
@@ -43,13 +19,6 @@ class GetCategoryListResponse extends BaseResponse
      * @SerializedName("cat_total")
      */
     public $catTotal;
-
-    /**
-     * @var string $lang
-     *
-     * @Type("string")
-     */
-    public $lang;
 
     /**
      * @var CatList[]

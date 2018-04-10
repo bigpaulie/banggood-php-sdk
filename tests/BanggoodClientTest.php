@@ -7,10 +7,13 @@ use bigpaulie\banggod\test\Stubs\ApiResponse;
 use bigpaulie\banggood\BanggoodClient;
 use bigpaulie\banggood\Client\Credentials;
 use bigpaulie\banggood\Object\CatList;
+use bigpaulie\banggood\Object\ProductList;
 use bigpaulie\banggood\Request\GetAccessTokenRequest;
 use bigpaulie\banggood\Request\GetCategoryListRequest;
+use bigpaulie\banggood\Request\GetProductListRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
 use bigpaulie\banggood\Response\GetCategoryListResponse;
+use bigpaulie\banggood\Response\GetProductListResponse;
 use GuzzleHttp\Client;
 use Mockery;
 
@@ -147,6 +150,64 @@ class BanggoodClientTest extends BanggoodTestCase
 
         $this->assertEquals(31020, $response->code);
         $this->assertEquals("Error Account", $response->msg);
+    }
+
+    /**
+     * This test should pass
+     *
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     */
+    public function testGetProductListShouldPass()
+    {
+        /** @var string $json */
+        $json = '{"code": 0, "page": 1, "page_total": 10, "product_total": 188, "page_size": 5, "lang": "en", "product_list": [{"product_id": "1083552", "cat_id": 1753, "product_name": "WLtoys 24438 1/24 2.4G 4WD Rock Crawler RC Car", "img": "https://img1.banggood.com/thu/view", "meta_desc": "WLtoys 24438 1/24 2.4G 4WD Rock Crawler RC Car", "add_date": "2016-09-01 09:59:40", "modify_date": "2016-09-01 09:59:53"}]}';
+
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetProductListRequest $request */
+        $request = new GetProductListRequest();
+
+        /** @var GetProductListResponse $response */
+        $response = $banggoodClient->getProductList($request);
+
+        $this->assertEquals(0, $response->code);
+        $this->assertTrue(is_array($response->productList));
+        $this->assertInstanceOf(ProductList::class, $response->productList[0]);
+        $this->assertEquals(
+            'WLtoys 24438 1/24 2.4G 4WD Rock Crawler RC Car',
+            $response->productList[0]->productName
+        );
+    }
+
+    /**
+     * This test should fail
+     *
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     * @expectedException \bigpaulie\banggood\Exception\BanggoodException
+     * @expectedExceptionCode 12022
+     */
+    public function testGetProductListShouldFail()
+    {
+        /** @var string $json */
+        $json = '{"code": 12022, "msg": "Cannot query by this cat_id", "lang": "en"}';
+
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetProductListRequest $request */
+        $request = new GetProductListRequest();
+
+        /** @var GetProductListResponse $response */
+        $response = $banggoodClient->getProductList($request);
     }
 
     public function tearDown()/* The :void return type declaration that should be here would cause a BC issue */
