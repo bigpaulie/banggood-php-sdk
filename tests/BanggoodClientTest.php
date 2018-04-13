@@ -270,6 +270,86 @@ class BanggoodClientTest extends BanggoodTestCase
         $response = $banggoodClient->getProductInfo($request);
     }
 
+    public function testGetShipmentsShouldPass()
+    {
+
+    }
+
+    public function testGetShipmentsShouldFail()
+    {
+
+    }
+
+    public function testImportOrderShouldPass()
+    {
+
+    }
+
+    public function testImportOrderShouldFail()
+    {
+
+    }
+
+    public function testGetOrderInfoShouldPass()
+    {
+
+    }
+
+    public function testGetOrderInfoShouldFail()
+    {
+
+    }
+
+    public function testGetTrackInfoShouldPass()
+    {
+
+    }
+
+    public function testGetTrackInfoShouldFail()
+    {
+
+    }
+
+    public function testGetCountriesShouldPass()
+    {
+
+    }
+
+    public function testGetCountriesShouldFail()
+    {
+
+    }
+
+    public function testGetStocksShouldPass()
+    {
+
+    }
+
+    public function testGetStocksShouldFail()
+    {
+
+    }
+
+    public function testGetOrderHistoryShouldPass()
+    {
+
+    }
+
+    public function testGetOrderHistoryShouldFail()
+    {
+
+    }
+
+    public function testGetProductUpdateListShouldPass()
+    {
+
+    }
+
+    public function testGetProductUpdateListShouldFail()
+    {
+
+    }
+
     public function tearDown()/* The :void return type declaration that should be here would cause a BC issue */
     {
         Mockery::close();
