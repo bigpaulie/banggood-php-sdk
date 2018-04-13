@@ -7,12 +7,17 @@ use bigpaulie\banggod\test\Stubs\ApiResponse;
 use bigpaulie\banggood\BanggoodClient;
 use bigpaulie\banggood\Client\Credentials;
 use bigpaulie\banggood\Object\CatList;
+use bigpaulie\banggood\Object\ImageList;
+use bigpaulie\banggood\Object\PoaList;
 use bigpaulie\banggood\Object\ProductList;
+use bigpaulie\banggood\Object\WarehouseList;
 use bigpaulie\banggood\Request\GetAccessTokenRequest;
 use bigpaulie\banggood\Request\GetCategoryListRequest;
+use bigpaulie\banggood\Request\GetProductInfoRequest;
 use bigpaulie\banggood\Request\GetProductListRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
 use bigpaulie\banggood\Response\GetCategoryListResponse;
+use bigpaulie\banggood\Response\GetProductInfoResponse;
 use bigpaulie\banggood\Response\GetProductListResponse;
 use GuzzleHttp\Client;
 use Mockery;
@@ -40,6 +45,7 @@ class BanggoodClientTest extends BanggoodTestCase
      * This test should pass
      *
      * The answer is well formatted and valid
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
      */
     public function testGetAccessTokenShouldPass()
     {
@@ -208,6 +214,60 @@ class BanggoodClientTest extends BanggoodTestCase
 
         /** @var GetProductListResponse $response */
         $response = $banggoodClient->getProductList($request);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testProductInfoShouldPass()
+    {
+        /** @var string $json */
+        $json = loadJsonStub('getProductInfo-success');
+
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetProductInfoRequest $request */
+        $request = new GetProductInfoRequest();
+
+        /** @var GetProductInfoResponse $response */
+        $response = $banggoodClient->getProductInfo($request);
+
+        $this->assertEquals(0, $response->code);
+        $this->assertInstanceOf(PoaList::class, $response->poaList[0]);
+        $this->assertInstanceOf(WarehouseList::class, $response->warehouseList[0]);
+        $this->assertInstanceOf(ImageList::class, $response->imageList[0]);
+        $this->assertEquals("Digoo Series Goods", $response->productName);
+    }
+
+    /**
+     * @throws \Exception
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     *
+     * @expectedException \bigpaulie\banggood\Exception\BanggoodException
+     * @expectedExceptionCode 12034
+     */
+    public function testProductInfoShouldFail()
+    {
+        /** @var string $json */
+        $json = loadJsonStub('getProductInfo-error');
+
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetProductInfoRequest $request */
+        $request = new GetProductInfoRequest();
+
+        /** @var GetProductInfoResponse $response */
+        $response = $banggoodClient->getProductInfo($request);
     }
 
     public function tearDown()/* The :void return type declaration that should be here would cause a BC issue */
