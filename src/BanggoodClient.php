@@ -11,6 +11,7 @@ use bigpaulie\banggood\Request\GetOrderInfoRequest;
 use bigpaulie\banggood\Request\GetProductInfoRequest;
 use bigpaulie\banggood\Request\GetProductListRequest;
 use bigpaulie\banggood\Request\GetShipmentsRequest;
+use bigpaulie\banggood\Request\GetTrackInfoRequest;
 use bigpaulie\banggood\Request\ImportOrderRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
 use bigpaulie\banggood\Response\GetCategoryListResponse;
@@ -18,6 +19,7 @@ use bigpaulie\banggood\Response\GetOrderInfoResponse;
 use bigpaulie\banggood\Response\GetProductInfoResponse;
 use bigpaulie\banggood\Response\GetProductListResponse;
 use bigpaulie\banggood\Response\GetShipmentsResponse;
+use bigpaulie\banggood\Response\GetTrackInfoResponse;
 use bigpaulie\banggood\Response\ImportOrderResponse;
 use GuzzleHttp\Client;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
@@ -153,7 +155,21 @@ class BanggoodClient extends BaseClient
     {
         /** @var GetOrderInfoResponse $response */
         $response = $this->request(__FUNCTION__, $request);
+        return $response;
+    }
 
+    /**
+     * @param GetTrackInfoRequest $request
+     * @return GetTrackInfoResponse
+     * @throws BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @see https://api.banggood.com/index.php?com=document&article_id=16
+     */
+    public function getTrackInfo(GetTrackInfoRequest $request): GetTrackInfoResponse
+    {
+        /** @var GetTrackInfoResponse $response */
+        $response = $this->request(__FUNCTION__, $request);
         return $response;
     }
 }

@@ -11,6 +11,7 @@ use bigpaulie\banggood\Object\ImageList;
 use bigpaulie\banggood\Object\Order\FailureList;
 use bigpaulie\banggood\Object\Order\OrderList;
 use bigpaulie\banggood\Object\Order\SaleRecordIdList;
+use bigpaulie\banggood\Object\Order\TrackInfo;
 use bigpaulie\banggood\Object\Order\UserInfo;
 use bigpaulie\banggood\Object\PoaList;
 use bigpaulie\banggood\Object\ProductList;
@@ -22,6 +23,7 @@ use bigpaulie\banggood\Request\GetOrderInfoRequest;
 use bigpaulie\banggood\Request\GetProductInfoRequest;
 use bigpaulie\banggood\Request\GetProductListRequest;
 use bigpaulie\banggood\Request\GetShipmentsRequest;
+use bigpaulie\banggood\Request\GetTrackInfoRequest;
 use bigpaulie\banggood\Request\ImportOrderRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
 use bigpaulie\banggood\Response\GetCategoryListResponse;
@@ -29,6 +31,7 @@ use bigpaulie\banggood\Response\GetOrderInfoResponse;
 use bigpaulie\banggood\Response\GetProductInfoResponse;
 use bigpaulie\banggood\Response\GetProductListResponse;
 use bigpaulie\banggood\Response\GetShipmentsResponse;
+use bigpaulie\banggood\Response\GetTrackInfoResponse;
 use bigpaulie\banggood\Response\ImportOrderResponse;
 use GuzzleHttp\Client;
 use Mockery;
@@ -493,14 +496,59 @@ class BanggoodClientTest extends BanggoodTestCase
         $response = $banggoodClient->getOrderInfo($request);
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     */
     public function testGetTrackInfoShouldPass()
     {
+        /** @var string $json */
+        $json = loadJsonStub('getTrackInfo-success');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetTrackInfoRequest $request */
+        $request = new GetTrackInfoRequest();
+
+        /** @var GetTrackInfoResponse $response */
+        $response = $banggoodClient->getTrackInfo($request);
+
+        $this->assertInstanceOf(GetTrackInfoResponse::class, $response);
+        $this->assertEquals(0, $response->code);
+
+        $this->assertInstanceOf(TrackInfo::class, $response->trackInfo[0]);
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     *
+     * @expectedException \bigpaulie\banggood\Exception\BanggoodException
+     * @expectedExceptionCode 31020
+     * @expectedExceptionMessage Error Account
+     */
     public function testGetTrackInfoShouldFail()
     {
+        /** @var string $json */
+        $json = loadJsonStub('getTrackInfo-error');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetTrackInfoRequest $request */
+        $request = new GetTrackInfoRequest();
+
+        /** @var GetTrackInfoResponse $response */
+        $response = $banggoodClient->getTrackInfo($request);
     }
 
     public function testGetCountriesShouldPass()
