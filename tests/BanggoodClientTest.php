@@ -7,6 +7,7 @@ use bigpaulie\banggod\test\Stubs\ApiResponse;
 use bigpaulie\banggood\BanggoodClient;
 use bigpaulie\banggood\Client\Credentials;
 use bigpaulie\banggood\Object\CatList;
+use bigpaulie\banggood\Object\Countries;
 use bigpaulie\banggood\Object\ImageList;
 use bigpaulie\banggood\Object\Order\FailureList;
 use bigpaulie\banggood\Object\Order\OrderList;
@@ -19,6 +20,7 @@ use bigpaulie\banggood\Object\ShipmentList;
 use bigpaulie\banggood\Object\WarehouseList;
 use bigpaulie\banggood\Request\GetAccessTokenRequest;
 use bigpaulie\banggood\Request\GetCategoryListRequest;
+use bigpaulie\banggood\Request\GetCountriesRequest;
 use bigpaulie\banggood\Request\GetOrderInfoRequest;
 use bigpaulie\banggood\Request\GetProductInfoRequest;
 use bigpaulie\banggood\Request\GetProductListRequest;
@@ -27,6 +29,7 @@ use bigpaulie\banggood\Request\GetTrackInfoRequest;
 use bigpaulie\banggood\Request\ImportOrderRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
 use bigpaulie\banggood\Response\GetCategoryListResponse;
+use bigpaulie\banggood\Response\GetCountriesResponse;
 use bigpaulie\banggood\Response\GetOrderInfoResponse;
 use bigpaulie\banggood\Response\GetProductInfoResponse;
 use bigpaulie\banggood\Response\GetProductListResponse;
@@ -551,14 +554,63 @@ class BanggoodClientTest extends BanggoodTestCase
         $response = $banggoodClient->getTrackInfo($request);
     }
 
+    /**
+     * This test should pass
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     */
     public function testGetCountriesShouldPass()
     {
+        /** @var string $json */
+        $json = loadJsonStub('getCountries-success');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetCountriesRequest $request */
+        $request = new GetCountriesRequest();
+
+        /** @var GetCountriesResponse $response */
+        $response = $banggoodClient->getCountries($request);
+
+        $this->assertInstanceOf(GetCountriesResponse::class, $response);
+        $this->assertEquals(0, $response->code);
+
+        $this->assertInstanceOf(Countries::class, $response->countries[0]);
+        $this->assertEquals(223, $response->countries[0]->countryId);
+        $this->assertEquals('United States', $response->countries[0]->countryName);
     }
 
+    /**
+     * This test should fail.
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     *
+     * @expectedException \bigpaulie\banggood\Exception\BanggoodException
+     * @expectedExceptionCode 31020
+     */
     public function testGetCountriesShouldFail()
     {
+        /** @var string $json */
+        $json = loadJsonStub('getCountries-error');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetCountriesRequest $request */
+        $request = new GetCountriesRequest();
+
+        /** @var GetCountriesResponse $response */
+        $response = $banggoodClient->getCountries($request);
     }
 
     public function testGetStocksShouldPass()
