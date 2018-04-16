@@ -1,0 +1,17 @@
+{
+  "code": 0,
+  "stocks": [
+    {
+      "warehouse": "CN",
+      "stock_list": [
+        {
+          "poa_id": "",
+          "poa": "",
+          "stock": 556,
+          "stock_msg": "In stock, usually dispatched in 1 business day"
+        }
+      ]
+    }
+  ],
+  "lang": "en"
+}

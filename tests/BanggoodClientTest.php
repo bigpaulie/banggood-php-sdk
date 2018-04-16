@@ -6,6 +6,7 @@ namespace bigpaulie\banggod\test;
 use bigpaulie\banggod\test\Stubs\ApiResponse;
 use bigpaulie\banggood\BanggoodClient;
 use bigpaulie\banggood\Client\Credentials;
+use bigpaulie\banggood\Exception\BanggoodException;
 use bigpaulie\banggood\Object\CatList;
 use bigpaulie\banggood\Object\Countries;
 use bigpaulie\banggood\Object\ImageList;
@@ -17,6 +18,8 @@ use bigpaulie\banggood\Object\Order\UserInfo;
 use bigpaulie\banggood\Object\PoaList;
 use bigpaulie\banggood\Object\ProductList;
 use bigpaulie\banggood\Object\ShipmentList;
+use bigpaulie\banggood\Object\Stocks;
+use bigpaulie\banggood\Object\StockList;
 use bigpaulie\banggood\Object\WarehouseList;
 use bigpaulie\banggood\Request\GetAccessTokenRequest;
 use bigpaulie\banggood\Request\GetCategoryListRequest;
@@ -25,6 +28,7 @@ use bigpaulie\banggood\Request\GetOrderInfoRequest;
 use bigpaulie\banggood\Request\GetProductInfoRequest;
 use bigpaulie\banggood\Request\GetProductListRequest;
 use bigpaulie\banggood\Request\GetShipmentsRequest;
+use bigpaulie\banggood\Request\GetStocksRequest;
 use bigpaulie\banggood\Request\GetTrackInfoRequest;
 use bigpaulie\banggood\Request\ImportOrderRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
@@ -34,6 +38,7 @@ use bigpaulie\banggood\Response\GetOrderInfoResponse;
 use bigpaulie\banggood\Response\GetProductInfoResponse;
 use bigpaulie\banggood\Response\GetProductListResponse;
 use bigpaulie\banggood\Response\GetShipmentsResponse;
+use bigpaulie\banggood\Response\GetStocksResponse;
 use bigpaulie\banggood\Response\GetTrackInfoResponse;
 use bigpaulie\banggood\Response\ImportOrderResponse;
 use GuzzleHttp\Client;
@@ -613,14 +618,65 @@ class BanggoodClientTest extends BanggoodTestCase
         $response = $banggoodClient->getCountries($request);
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     */
     public function testGetStocksShouldPass()
     {
+        /** @var string $json */
+        $json = loadJsonStub('getStock-success');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetStocksRequest $request */
+        $request = new GetStocksRequest();
+
+        /** @var GetStocksResponse $response */
+        $response = $banggoodClient->getStocks($request);
+
+        $this->assertInstanceOf(GetStocksResponse::class, $response);
+        $this->assertEquals(0, $response->code);
+
+        $this->assertInstanceOf(Stocks::class, $response->stocks[0]);
+        $this->assertInstanceOf(StockList::class, $response->stocks[0]->stockList[0]);
+        $this->assertEquals(556, $response->stocks[0]->stockList[0]->stock);
+        $this->assertEquals(
+            'In stock, usually dispatched in 1 business day',
+            $response->stocks[0]->stockList[0]->stockMsg
+        );
     }
 
+    /**
+     * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     *
+     * @expectedException \bigpaulie\banggood\Exception\BanggoodException
+     * @expectedExceptionCode 12034
+     */
     public function testGetStocksShouldFail()
     {
+        /** @var string $json */
+        $json = loadJsonStub('getStocks-error');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetStocksRequest $request */
+        $request = new GetStocksRequest();
+
+        /** @var GetStocksResponse $response */
+        $response = $banggoodClient->getStocks($request);
     }
 
     public function testGetOrderHistoryShouldPass()

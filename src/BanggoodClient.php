@@ -12,6 +12,7 @@ use bigpaulie\banggood\Request\GetOrderInfoRequest;
 use bigpaulie\banggood\Request\GetProductInfoRequest;
 use bigpaulie\banggood\Request\GetProductListRequest;
 use bigpaulie\banggood\Request\GetShipmentsRequest;
+use bigpaulie\banggood\Request\GetStocksRequest;
 use bigpaulie\banggood\Request\GetTrackInfoRequest;
 use bigpaulie\banggood\Request\ImportOrderRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
@@ -21,6 +22,7 @@ use bigpaulie\banggood\Response\GetOrderInfoResponse;
 use bigpaulie\banggood\Response\GetProductInfoResponse;
 use bigpaulie\banggood\Response\GetProductListResponse;
 use bigpaulie\banggood\Response\GetShipmentsResponse;
+use bigpaulie\banggood\Response\GetStocksResponse;
 use bigpaulie\banggood\Response\GetTrackInfoResponse;
 use bigpaulie\banggood\Response\ImportOrderResponse;
 use GuzzleHttp\Client;
@@ -184,6 +186,19 @@ class BanggoodClient extends BaseClient
     public function getCountries(GetCountriesRequest $request): GetCountriesResponse
     {
         /** @var GetCountriesResponse $response */
+        $response = $this->request(__FUNCTION__, $request);
+        return $response;
+    }
+
+    /**
+     * @param GetStocksRequest $request
+     * @return GetStocksResponse
+     * @throws BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getStocks(GetStocksRequest $request): GetStocksResponse
+    {
+        /** @var GetStocksResponse $response */
         $response = $this->request(__FUNCTION__, $request);
         return $response;
     }
