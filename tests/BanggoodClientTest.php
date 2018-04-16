@@ -10,15 +10,18 @@ use bigpaulie\banggood\Object\CatList;
 use bigpaulie\banggood\Object\ImageList;
 use bigpaulie\banggood\Object\PoaList;
 use bigpaulie\banggood\Object\ProductList;
+use bigpaulie\banggood\Object\ShipmentList;
 use bigpaulie\banggood\Object\WarehouseList;
 use bigpaulie\banggood\Request\GetAccessTokenRequest;
 use bigpaulie\banggood\Request\GetCategoryListRequest;
 use bigpaulie\banggood\Request\GetProductInfoRequest;
 use bigpaulie\banggood\Request\GetProductListRequest;
+use bigpaulie\banggood\Request\GetShipmentsRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
 use bigpaulie\banggood\Response\GetCategoryListResponse;
 use bigpaulie\banggood\Response\GetProductInfoResponse;
 use bigpaulie\banggood\Response\GetProductListResponse;
+use bigpaulie\banggood\Response\GetShipmentsResponse;
 use GuzzleHttp\Client;
 use Mockery;
 
@@ -270,14 +273,62 @@ class BanggoodClientTest extends BanggoodTestCase
         $response = $banggoodClient->getProductInfo($request);
     }
 
+    /**
+     * This test should pass
+     * @throws \Exception
+     */
     public function testGetShipmentsShouldPass()
     {
+        /** @var string $json */
+        $json = loadJsonStub('getShipments-success');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetShipmentsRequest $request */
+        $request = new GetShipmentsRequest();
+
+        /** @var GetShipmentsResponse $response */
+        $response = $banggoodClient->getShipments($request);
+
+        $this->assertEquals(0, $response->code);
+        $this->assertInstanceOf(ShipmentList::class, $response->shipmentList[0]);
+        $this->assertEquals("cndhl_cndhl", $response->shipmentList[0]->shipMethodCode);
+        $this->assertEquals("Expedited Shipping Service", $response->shipmentList[0]->shipMethodName);
+        $this->assertEquals("5-8 business days", $response->shipmentList[0]->shipDay);
+        $this->assertEquals("10.92", $response->shipmentList[0]->shipFee);
     }
 
+    /**
+     * This test should fail
+     * @throws \Exception
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     *
+     * @expectedException \bigpaulie\banggood\Exception\BanggoodException
+     * @expectedExceptionCode 31020
+     * @expectedExceptionMessage Error Account
+     */
     public function testGetShipmentsShouldFail()
     {
+        /** @var string $json */
+        $json = loadJsonStub('getShipments-error');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetShipmentsRequest $request */
+        $request = new GetShipmentsRequest();
+
+        /** @var GetShipmentsResponse $response */
+        $response = $banggoodClient->getShipments($request);
     }
 
     public function testImportOrderShouldPass()

@@ -1,0 +1,12 @@
+{
+  "code": 0,
+  "shipment_list": [
+    {
+      "shipmethod_code": "cndhl_cndhl",
+      "shipmethod_name": "Expedited Shipping Service",
+      "shipday": "5-8 business days",
+      "shipfee": "10.92"
+    }
+  ],
+  "lang": "en"
+}
