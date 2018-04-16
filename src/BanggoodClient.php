@@ -7,12 +7,14 @@ use bigpaulie\banggood\Client\Credentials;
 use bigpaulie\banggood\Exception\BanggoodException;
 use bigpaulie\banggood\Request\GetAccessTokenRequest;
 use bigpaulie\banggood\Request\GetCategoryListRequest;
+use bigpaulie\banggood\Request\GetOrderInfoRequest;
 use bigpaulie\banggood\Request\GetProductInfoRequest;
 use bigpaulie\banggood\Request\GetProductListRequest;
 use bigpaulie\banggood\Request\GetShipmentsRequest;
 use bigpaulie\banggood\Request\ImportOrderRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
 use bigpaulie\banggood\Response\GetCategoryListResponse;
+use bigpaulie\banggood\Response\GetOrderInfoResponse;
 use bigpaulie\banggood\Response\GetProductInfoResponse;
 use bigpaulie\banggood\Response\GetProductListResponse;
 use bigpaulie\banggood\Response\GetShipmentsResponse;
@@ -136,6 +138,22 @@ class BanggoodClient extends BaseClient
     {
         /** @var ImportOrderResponse $response */
         $response = $this->request(__FUNCTION__, $request, true, true);
+        return $response;
+    }
+
+    /**
+     * @param GetOrderInfoRequest $request
+     * @return GetOrderInfoResponse
+     * @throws BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @see https://api.banggood.com/index.php?com=document&article_id=15
+     */
+    public function getOrderInfo(GetOrderInfoRequest $request): GetOrderInfoResponse
+    {
+        /** @var GetOrderInfoResponse $response */
+        $response = $this->request(__FUNCTION__, $request);
+
         return $response;
     }
 }

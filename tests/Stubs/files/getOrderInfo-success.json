@@ -1,0 +1,41 @@
+{
+  "code": 0,
+  "sale_record_id_list": [
+    {
+      "sale_record_id": "",
+      "order_list": [
+        {
+          "order_id": "",
+          "status": "",
+          "currency": "",
+          "shipmethod_code": "",
+          "total_amount": "",
+          "sub_amount": "",
+          "ds_discount": "",
+          "shipfee": "",
+          "ship_insurance": "",
+          "tariff_insurance": "",
+          "product_list": [
+            {
+              "product_id": "",
+              "warehouse": "",
+              "quantity": "",
+              "poa_id": ""
+            }
+          ]
+        }
+      ],
+      "user_info": [
+        {
+          "delivery_country": "",
+          "delivery_name": "",
+          "delivery_street_address": "",
+          "delivery_street_address2": "",
+          "delivery_state": "",
+          "delivery_city": ""
+        }
+      ]
+    }
+  ],
+  "lang": "en"
+}

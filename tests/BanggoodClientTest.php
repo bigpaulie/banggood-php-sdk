@@ -9,18 +9,23 @@ use bigpaulie\banggood\Client\Credentials;
 use bigpaulie\banggood\Object\CatList;
 use bigpaulie\banggood\Object\ImageList;
 use bigpaulie\banggood\Object\Order\FailureList;
+use bigpaulie\banggood\Object\Order\OrderList;
+use bigpaulie\banggood\Object\Order\SaleRecordIdList;
+use bigpaulie\banggood\Object\Order\UserInfo;
 use bigpaulie\banggood\Object\PoaList;
 use bigpaulie\banggood\Object\ProductList;
 use bigpaulie\banggood\Object\ShipmentList;
 use bigpaulie\banggood\Object\WarehouseList;
 use bigpaulie\banggood\Request\GetAccessTokenRequest;
 use bigpaulie\banggood\Request\GetCategoryListRequest;
+use bigpaulie\banggood\Request\GetOrderInfoRequest;
 use bigpaulie\banggood\Request\GetProductInfoRequest;
 use bigpaulie\banggood\Request\GetProductListRequest;
 use bigpaulie\banggood\Request\GetShipmentsRequest;
 use bigpaulie\banggood\Request\ImportOrderRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
 use bigpaulie\banggood\Response\GetCategoryListResponse;
+use bigpaulie\banggood\Response\GetOrderInfoResponse;
 use bigpaulie\banggood\Response\GetProductInfoResponse;
 use bigpaulie\banggood\Response\GetProductListResponse;
 use bigpaulie\banggood\Response\GetShipmentsResponse;
@@ -430,9 +435,35 @@ class BanggoodClientTest extends BanggoodTestCase
         $response = $banggoodClient->importOrder($request);
     }
 
+    /**
+     * This test should pass
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     */
     public function testGetOrderInfoShouldPass()
     {
+        /** @var string $json */
+        $json = loadJsonStub('getOrderInfo-success');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetOrderInfoRequest $request */
+        $request = new GetOrderInfoRequest();
+
+        /** @var GetOrderInfoResponse $response */
+        $response = $banggoodClient->getOrderInfo($request);
+
+        $this->assertInstanceOf(GetOrderInfoResponse::class, $response);
+        $this->assertEquals(0, $response->code);
+
+        $this->assertInstanceOf(SaleRecordIdList::class, $response->saleRecordIdList[0]);
+        $this->assertInstanceOf(OrderList::class, $response->saleRecordIdList[0]->orderList[0]);
+        $this->assertInstanceOf(UserInfo::class, $response->saleRecordIdList[0]->userInfo[0]);
     }
 
     public function testGetOrderInfoShouldFail()
