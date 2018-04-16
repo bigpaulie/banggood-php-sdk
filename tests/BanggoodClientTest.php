@@ -466,9 +466,31 @@ class BanggoodClientTest extends BanggoodTestCase
         $this->assertInstanceOf(UserInfo::class, $response->saleRecordIdList[0]->userInfo[0]);
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     *
+     * @expectedException \bigpaulie\banggood\Exception\BanggoodException
+     * @expectedExceptionCode 31020
+     * @expectedExceptionMessage Error Account
+     */
     public function testGetOrderInfoShouldFail()
     {
+        /** @var string $json */
+        $json = loadJsonStub('getOrderInfo-error');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetOrderInfoRequest $request */
+        $request = new GetOrderInfoRequest();
+
+        /** @var GetOrderInfoResponse $response */
+        $response = $banggoodClient->getOrderInfo($request);
     }
 
     public function testGetTrackInfoShouldPass()
