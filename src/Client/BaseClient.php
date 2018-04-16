@@ -32,18 +32,49 @@ class BaseClient
     /**
      * @param string $endpoint
      * @param RequestInterface $request
+     * @param bool $requiresToken
+     * @param bool $isPostRequest
      * @param array $headers
      * @return ResponseInterface
      * @throws BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function request(string $endpoint, RequestInterface $request, array $headers = []): ResponseInterface
+    public function request(
+        string $endpoint,
+        RequestInterface $request,
+        bool $requiresToken = true,
+        bool $isPostRequest = false,
+        array $headers = []
+    ): ResponseInterface
     {
-        /** @var Request $httpRequest */
-        $httpRequest = new Request(
-            'GET',
-            $this->composeURL($endpoint, $request->getParameters()),
-            $headers
-        );
+        if ($isPostRequest) {
+            /** @var string accessToken */
+            $request->accessToken = $this->credentials->getAccessToken();
+
+            /** @var SerializationContext $context */
+            $context = (new SerializationContext())->shouldSerializeNull(false);
+
+            /** @var Serializer $body */
+            $body = $this->serializer->serialize($request, 'json', $context);
+
+            /** Set corresponding headers for this request */
+            $headers['Content-type'] = 'application/json';
+
+            /** @var Request $httpRequest */
+            $httpRequest = new Request(
+                'POST',
+                $this->composeURL($endpoint, null, $requiresToken),
+                $headers,
+                $body
+            );
+        } else {
+            /** @var Request $httpRequest */
+            $httpRequest = new Request(
+                'GET',
+                $this->composeURL($endpoint, $request->getParameters(), $requiresToken),
+                $headers
+            );
+        }
 
         /** @var \Psr\Http\Message\ResponseInterface $response */
         $response = $this->http->send($httpRequest);
@@ -63,13 +94,33 @@ class BaseClient
 
     /**
      * @param string $endpoint
-     * @param array $parameters
+     * @param array|null $parameters
+     * @param bool $requiresToken
      * @return string
      */
-    private function composeURL(string $endpoint, array $parameters = []): string
+    private function composeURL(string $endpoint, $parameters = [], bool $requiresToken = true): string
     {
+        if (null == $parameters) {
+            return sprintf(
+                "%s/?%s",
+                Banggood::ENDPOINT_PRODUCTION,
+                $endpoint
+            );
+        }
+
+        /**
+         * All request except getAccessToken and importOrders requires
+         * the presence of the access_token url parameter
+         */
+        if ($requiresToken) {
+            $parameters['access_token'] = $this->credentials->getAccessToken();
+        } else {
+            $parameters['app_id'] = $this->credentials->getAppId();
+            $parameters['app_secret'] = $this->credentials->getAppSecret();
+        }
+
         return sprintf(
-            "%s/%s?%s",
+            "%s/?%s&%s",
             Banggood::ENDPOINT_PRODUCTION,
             $endpoint,
             http_build_query($parameters)

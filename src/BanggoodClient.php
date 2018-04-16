@@ -10,11 +10,13 @@ use bigpaulie\banggood\Request\GetCategoryListRequest;
 use bigpaulie\banggood\Request\GetProductInfoRequest;
 use bigpaulie\banggood\Request\GetProductListRequest;
 use bigpaulie\banggood\Request\GetShipmentsRequest;
+use bigpaulie\banggood\Request\ImportOrderRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
 use bigpaulie\banggood\Response\GetCategoryListResponse;
 use bigpaulie\banggood\Response\GetProductInfoResponse;
 use bigpaulie\banggood\Response\GetProductListResponse;
 use bigpaulie\banggood\Response\GetShipmentsResponse;
+use bigpaulie\banggood\Response\ImportOrderResponse;
 use GuzzleHttp\Client;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
@@ -53,6 +55,7 @@ class BanggoodClient extends BaseClient
      * @param GetAccessTokenRequest $request
      * @return GetAccessTokenResponse
      * @throws BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getAccessToken(GetAccessTokenRequest $request):GetAccessTokenResponse
     {
@@ -65,6 +68,7 @@ class BanggoodClient extends BaseClient
      * @param GetCategoryListRequest $request
      * @return GetCategoryListResponse
      * @throws BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @see https://api.banggood.com/index.php?com=document&article_id=9
      */
@@ -79,6 +83,7 @@ class BanggoodClient extends BaseClient
      * @param GetProductListRequest $request
      * @return GetProductListResponse
      * @throws BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @see https://api.banggood.com/index.php?com=document&article_id=10
      */
@@ -93,6 +98,7 @@ class BanggoodClient extends BaseClient
      * @param GetProductInfoRequest $request
      * @return GetProductInfoResponse
      * @throws BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @see https://api.banggood.com/index.php?com=document&article_id=11
      */
@@ -107,6 +113,7 @@ class BanggoodClient extends BaseClient
      * @param GetShipmentsRequest $request
      * @return GetShipmentsResponse
      * @throws BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @see https://api.banggood.com/index.php?com=document&article_id=12
      */
@@ -114,6 +121,21 @@ class BanggoodClient extends BaseClient
     {
         /** @var GetShipmentsResponse $response */
         $response = $this->request(__FUNCTION__, $request);
+        return $response;
+    }
+
+    /**
+     * @param ImportOrderRequest $request
+     * @return ImportOrderResponse
+     * @throws BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @see https://api.banggood.com/index.php?com=document&article_id=14
+     */
+    public function importOrder(ImportOrderRequest $request): ImportOrderResponse
+    {
+        /** @var ImportOrderResponse $response */
+        $response = $this->request(__FUNCTION__, $request, true, true);
         return $response;
     }
 }

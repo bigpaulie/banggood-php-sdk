@@ -8,6 +8,7 @@ use bigpaulie\banggood\BanggoodClient;
 use bigpaulie\banggood\Client\Credentials;
 use bigpaulie\banggood\Object\CatList;
 use bigpaulie\banggood\Object\ImageList;
+use bigpaulie\banggood\Object\Order\FailureList;
 use bigpaulie\banggood\Object\PoaList;
 use bigpaulie\banggood\Object\ProductList;
 use bigpaulie\banggood\Object\ShipmentList;
@@ -17,11 +18,13 @@ use bigpaulie\banggood\Request\GetCategoryListRequest;
 use bigpaulie\banggood\Request\GetProductInfoRequest;
 use bigpaulie\banggood\Request\GetProductListRequest;
 use bigpaulie\banggood\Request\GetShipmentsRequest;
+use bigpaulie\banggood\Request\ImportOrderRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
 use bigpaulie\banggood\Response\GetCategoryListResponse;
 use bigpaulie\banggood\Response\GetProductInfoResponse;
 use bigpaulie\banggood\Response\GetProductListResponse;
 use bigpaulie\banggood\Response\GetShipmentsResponse;
+use bigpaulie\banggood\Response\ImportOrderResponse;
 use GuzzleHttp\Client;
 use Mockery;
 
@@ -49,6 +52,7 @@ class BanggoodClientTest extends BanggoodTestCase
      *
      * The answer is well formatted and valid
      * @throws \bigpaulie\banggood\Exception\BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function testGetAccessTokenShouldPass()
     {
@@ -105,6 +109,7 @@ class BanggoodClientTest extends BanggoodTestCase
      * This test should pass
      *
      * @throws \bigpaulie\banggood\Exception\BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function testGetCategoryListShouldPass()
     {
@@ -136,6 +141,8 @@ class BanggoodClientTest extends BanggoodTestCase
      * This test should fail
      *
      * @throws \bigpaulie\banggood\Exception\BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
      * @expectedException \bigpaulie\banggood\Exception\BanggoodException
      * @expectedExceptionCode 11020
      */
@@ -165,6 +172,7 @@ class BanggoodClientTest extends BanggoodTestCase
      * This test should pass
      *
      * @throws \bigpaulie\banggood\Exception\BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function testGetProductListShouldPass()
     {
@@ -197,6 +205,8 @@ class BanggoodClientTest extends BanggoodTestCase
      * This test should fail
      *
      * @throws \bigpaulie\banggood\Exception\BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
      * @expectedException \bigpaulie\banggood\Exception\BanggoodException
      * @expectedExceptionCode 12022
      */
@@ -221,6 +231,7 @@ class BanggoodClientTest extends BanggoodTestCase
 
     /**
      * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function testProductInfoShouldPass()
     {
@@ -250,6 +261,7 @@ class BanggoodClientTest extends BanggoodTestCase
     /**
      * @throws \Exception
      * @throws \bigpaulie\banggood\Exception\BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @expectedException \bigpaulie\banggood\Exception\BanggoodException
      * @expectedExceptionCode 12034
@@ -276,6 +288,7 @@ class BanggoodClientTest extends BanggoodTestCase
     /**
      * This test should pass
      * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function testGetShipmentsShouldPass()
     {
@@ -307,6 +320,7 @@ class BanggoodClientTest extends BanggoodTestCase
      * This test should fail
      * @throws \Exception
      * @throws \bigpaulie\banggood\Exception\BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @expectedException \bigpaulie\banggood\Exception\BanggoodException
      * @expectedExceptionCode 31020
@@ -333,12 +347,87 @@ class BanggoodClientTest extends BanggoodTestCase
 
     public function testImportOrderShouldPass()
     {
+        /** @var string $json */
+        $json = loadJsonStub('importOrder-success');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var ImportOrderRequest $request */
+        $request = new ImportOrderRequest();
+
+        /** @var ImportOrderResponse $response */
+        $response = $banggoodClient->importOrder($request);
+
+        $this->assertEquals(0, $response->code);
+        $this->assertEquals('test007', $response->saleRecordId);
+        $this->assertEquals(1, $response->productTotal);
+        $this->assertEquals(1, $response->successTotal);
+        $this->assertEquals(0, $response->failureTotal);
     }
 
     public function testImportOrderShouldFail()
     {
+        /** @var string $json */
+        $json = loadJsonStub('importOrder-failure');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var ImportOrderRequest $request */
+        $request = new ImportOrderRequest();
+
+        /** @var ImportOrderResponse $response */
+        $response = $banggoodClient->importOrder($request);
+
+        $this->assertEquals(0, $response->code);
+        $this->assertEquals('test006', $response->saleRecordId);
+        $this->assertEquals(1, $response->productTotal);
+        $this->assertEquals(0, $response->successTotal);
+        $this->assertEquals(1, $response->failureTotal);
+
+        $this->assertInstanceOf(FailureList::class, $response->failureList[0]);
+        $this->assertEquals('992047', $response->failureList[0]->productId);
+        $this->assertEquals('2', $response->failureList[0]->quantity);
+        $this->assertEquals('CN', $response->failureList[0]->warehouse);
+        $this->assertEquals('45,2', $response->failureList[0]->poaId);
+        $this->assertEquals('airmail_airmail', $response->failureList[0]->shipMethodCode);
+        $this->assertEquals('Error poa', $response->failureList[0]->errorDesc);
+    }
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     *
+     * @expectedException \bigpaulie\banggood\Exception\BanggoodException
+     * @expectedExceptionCode 31020
+     * @expectedExceptionMessage Error Account
+     */
+    public function testImportOrderShouldFailWithException()
+    {
+        /** @var string $json */
+        $json = loadJsonStub('importOrder-error');
+
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var ImportOrderRequest $request */
+        $request = new ImportOrderRequest();
+
+        /** @var ImportOrderResponse $response */
+        $response = $banggoodClient->importOrder($request);
     }
 
     public function testGetOrderInfoShouldPass()
