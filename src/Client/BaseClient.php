@@ -30,6 +30,12 @@ class BaseClient
     protected $credentials;
 
     /**
+     * Working environment Production|Sandbox|UnitTesting
+     * @var string $environment
+     */
+    protected $environment;
+
+    /**
      * @param string $endpoint
      * @param RequestInterface $request
      * @param bool $requiresToken
@@ -103,7 +109,7 @@ class BaseClient
         if (null == $parameters) {
             return sprintf(
                 "%s/?%s",
-                Banggood::ENDPOINT_PRODUCTION,
+                $this->environment,
                 $endpoint
             );
         }
@@ -121,7 +127,7 @@ class BaseClient
 
         return sprintf(
             "%s/?%s&%s",
-            Banggood::ENDPOINT_PRODUCTION,
+            $this->environment,
             $endpoint,
             http_build_query($parameters)
         );

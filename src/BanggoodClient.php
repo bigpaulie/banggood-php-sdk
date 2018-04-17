@@ -45,8 +45,9 @@ class BanggoodClient extends BaseClient
      * BanggoodClient constructor.
      * @param Credentials $credentials
      * @param Client $client
+     * @param string $environment
      */
-    public function __construct(Credentials $credentials, Client $client)
+    public function __construct(Credentials $credentials, Client $client, string $environment)
     {
         /** @var Client http */
         $this->http = $client;

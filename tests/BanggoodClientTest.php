@@ -6,6 +6,7 @@ namespace bigpaulie\banggod\test;
 use bigpaulie\banggod\test\Stubs\ApiResponse;
 use bigpaulie\banggood\BanggoodClient;
 use bigpaulie\banggood\Client\Credentials;
+use bigpaulie\banggood\Enum\Banggood;
 use bigpaulie\banggood\Object\CatList;
 use bigpaulie\banggood\Object\Countries;
 use bigpaulie\banggood\Object\ImageList;
@@ -85,7 +86,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetAccessTokenRequest $request */
         $request = new GetAccessTokenRequest();
@@ -114,7 +115,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetAccessTokenRequest $request */
         $request = new GetAccessTokenRequest();
@@ -142,7 +143,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetCategoryListRequest $request */
         $request = new GetCategoryListRequest();
@@ -177,7 +178,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetCategoryListRequest $request */
         $request = new GetCategoryListRequest();
@@ -205,7 +206,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetProductListRequest $request */
         $request = new GetProductListRequest();
@@ -241,7 +242,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetProductListRequest $request */
         $request = new GetProductListRequest();
@@ -264,7 +265,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetProductInfoRequest $request */
         $request = new GetProductInfoRequest();
@@ -297,7 +298,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetProductInfoRequest $request */
         $request = new GetProductInfoRequest();
@@ -321,7 +322,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetShipmentsRequest $request */
         $request = new GetShipmentsRequest();
@@ -357,7 +358,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetShipmentsRequest $request */
         $request = new GetShipmentsRequest();
@@ -376,7 +377,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var ImportOrderRequest $request */
         $request = new ImportOrderRequest();
@@ -401,7 +402,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var ImportOrderRequest $request */
         $request = new ImportOrderRequest();
@@ -442,7 +443,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var ImportOrderRequest $request */
         $request = new ImportOrderRequest();
@@ -466,7 +467,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetOrderInfoRequest $request */
         $request = new GetOrderInfoRequest();
@@ -500,7 +501,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetOrderInfoRequest $request */
         $request = new GetOrderInfoRequest();
@@ -523,7 +524,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetTrackInfoRequest $request */
         $request = new GetTrackInfoRequest();
@@ -555,7 +556,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetTrackInfoRequest $request */
         $request = new GetTrackInfoRequest();
@@ -579,7 +580,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetCountriesRequest $request */
         $request = new GetCountriesRequest();
@@ -614,7 +615,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetCountriesRequest $request */
         $request = new GetCountriesRequest();
@@ -637,7 +638,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetStocksRequest $request */
         $request = new GetStocksRequest();
@@ -675,7 +676,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetStocksRequest $request */
         $request = new GetStocksRequest();
@@ -699,7 +700,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetOrderHistoryRequest $request */
         $request = new GetOrderHistoryRequest();
@@ -737,7 +738,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetOrderHistoryRequest $request */
         $request = new GetOrderHistoryRequest();
@@ -761,7 +762,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetProductUpdateListRequest $request */
         $request = new GetProductUpdateListRequest();
@@ -798,7 +799,7 @@ class BanggoodClientTest extends BanggoodTestCase
             ->once()->andReturn(new ApiResponse($json));
 
         /** @var BanggoodClient $banggoodClient */
-        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var GetProductUpdateListRequest $request */
         $request = new GetProductUpdateListRequest();
