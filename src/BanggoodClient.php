@@ -55,6 +55,9 @@ class BanggoodClient extends BaseClient
         /** @var Credentials credentials */
         $this->credentials = $credentials;
 
+        /** @var string environment */
+        $this->environment = $environment;
+
         /** @var Serializer serializer */
         $this->serializer = SerializerBuilder::create()
             ->setPropertyNamingStrategy(

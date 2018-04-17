@@ -108,7 +108,7 @@ class BaseClient
     {
         if (null == $parameters) {
             return sprintf(
-                "%s/?%s",
+                "%s/%s",
                 $this->environment,
                 $endpoint
             );
@@ -126,7 +126,7 @@ class BaseClient
         }
 
         return sprintf(
-            "%s/?%s&%s",
+            "%s/%s?%s",
             $this->environment,
             $endpoint,
             http_build_query($parameters)
