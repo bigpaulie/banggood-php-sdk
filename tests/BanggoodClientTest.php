@@ -6,11 +6,11 @@ namespace bigpaulie\banggod\test;
 use bigpaulie\banggod\test\Stubs\ApiResponse;
 use bigpaulie\banggood\BanggoodClient;
 use bigpaulie\banggood\Client\Credentials;
-use bigpaulie\banggood\Exception\BanggoodException;
 use bigpaulie\banggood\Object\CatList;
 use bigpaulie\banggood\Object\Countries;
 use bigpaulie\banggood\Object\ImageList;
 use bigpaulie\banggood\Object\Order\FailureList;
+use bigpaulie\banggood\Object\Order\OrderHistory;
 use bigpaulie\banggood\Object\Order\OrderList;
 use bigpaulie\banggood\Object\Order\SaleRecordIdList;
 use bigpaulie\banggood\Object\Order\TrackInfo;
@@ -24,6 +24,7 @@ use bigpaulie\banggood\Object\WarehouseList;
 use bigpaulie\banggood\Request\GetAccessTokenRequest;
 use bigpaulie\banggood\Request\GetCategoryListRequest;
 use bigpaulie\banggood\Request\GetCountriesRequest;
+use bigpaulie\banggood\Request\GetOrderHistoryRequest;
 use bigpaulie\banggood\Request\GetOrderInfoRequest;
 use bigpaulie\banggood\Request\GetProductInfoRequest;
 use bigpaulie\banggood\Request\GetProductListRequest;
@@ -34,6 +35,7 @@ use bigpaulie\banggood\Request\ImportOrderRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
 use bigpaulie\banggood\Response\GetCategoryListResponse;
 use bigpaulie\banggood\Response\GetCountriesResponse;
+use bigpaulie\banggood\Response\GetOrderHistoryResponse;
 use bigpaulie\banggood\Response\GetOrderInfoResponse;
 use bigpaulie\banggood\Response\GetProductInfoResponse;
 use bigpaulie\banggood\Response\GetProductListResponse;
@@ -679,14 +681,66 @@ class BanggoodClientTest extends BanggoodTestCase
         $response = $banggoodClient->getStocks($request);
     }
 
+    /**
+     * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     */
     public function testGetOrderHistoryShouldPass()
     {
+        /** @var string $json */
+        $json = loadJsonStub('getOrderHistory-success');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetOrderHistoryRequest $request */
+        $request = new GetOrderHistoryRequest();
+
+        /** @var GetOrderHistoryResponse $response */
+        $response = $banggoodClient->getOrderHistory($request);
+
+        $this->assertInstanceOf(GetOrderHistoryResponse::class, $response);
+        $this->assertEquals(0, $response->code);
+
+        $this->assertEquals('UD123456CN', $response->trackNumber);
+
+        /** @var OrderHistory $orderHistory */
+        $orderHistory = $response->oderHistory[0];
+        $this->assertInstanceOf(OrderHistory::class, $orderHistory);
+        $this->assertEquals('Payment Pending', $orderHistory->status);
+        $this->assertEquals('2016-09-17 03:29:30', $orderHistory->dateAdd);
     }
 
+    /**
+     * @throws \Exception
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @expectedException \bigpaulie\banggood\Exception\BanggoodException
+     * @expectedExceptionCode 31020
+     */
     public function testGetOrderHistoryShouldFail()
     {
+        /** @var string $json */
+        $json = loadJsonStub('getOrderHistory-error');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetOrderHistoryRequest $request */
+        $request = new GetOrderHistoryRequest();
+
+        /** @var GetOrderHistoryResponse $response */
+        $response = $banggoodClient->getOrderHistory($request);
     }
 
     public function testGetProductUpdateListShouldPass()

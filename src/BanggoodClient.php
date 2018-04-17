@@ -8,6 +8,7 @@ use bigpaulie\banggood\Exception\BanggoodException;
 use bigpaulie\banggood\Request\GetAccessTokenRequest;
 use bigpaulie\banggood\Request\GetCategoryListRequest;
 use bigpaulie\banggood\Request\GetCountriesRequest;
+use bigpaulie\banggood\Request\GetOrderHistoryRequest;
 use bigpaulie\banggood\Request\GetOrderInfoRequest;
 use bigpaulie\banggood\Request\GetProductInfoRequest;
 use bigpaulie\banggood\Request\GetProductListRequest;
@@ -18,6 +19,7 @@ use bigpaulie\banggood\Request\ImportOrderRequest;
 use bigpaulie\banggood\Response\GetAccessTokenResponse;
 use bigpaulie\banggood\Response\GetCategoryListResponse;
 use bigpaulie\banggood\Response\GetCountriesResponse;
+use bigpaulie\banggood\Response\GetOrderHistoryResponse;
 use bigpaulie\banggood\Response\GetOrderInfoResponse;
 use bigpaulie\banggood\Response\GetProductInfoResponse;
 use bigpaulie\banggood\Response\GetProductListResponse;
@@ -199,6 +201,21 @@ class BanggoodClient extends BaseClient
     public function getStocks(GetStocksRequest $request): GetStocksResponse
     {
         /** @var GetStocksResponse $response */
+        $response = $this->request(__FUNCTION__, $request);
+        return $response;
+    }
+
+    /**
+     * @param GetOrderHistoryRequest $request
+     * @return GetOrderHistoryResponse
+     * @throws BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @see https://api.banggood.com/index.php?com=document&article_id=17
+     */
+    public function getOrderHistory(GetOrderHistoryRequest $request): GetOrderHistoryResponse
+    {
+        /** @var GetOrderHistoryResponse $response */
         $response = $this->request(__FUNCTION__, $request);
         return $response;
     }
