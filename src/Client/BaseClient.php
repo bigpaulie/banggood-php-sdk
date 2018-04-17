@@ -106,14 +106,6 @@ class BaseClient
      */
     private function composeURL(string $endpoint, $parameters = [], bool $requiresToken = true): string
     {
-        if (null == $parameters) {
-            return sprintf(
-                "%s/%s",
-                $this->environment,
-                $endpoint
-            );
-        }
-
         /**
          * All request except getAccessToken and importOrders requires
          * the presence of the access_token url parameter
@@ -123,6 +115,13 @@ class BaseClient
         } else {
             $parameters['app_id'] = $this->credentials->getAppId();
             $parameters['app_secret'] = $this->credentials->getAppSecret();
+        }
+
+        /**
+         * In sandbox mode we need to always add this parameter
+         */
+        if (Banggood::ENDPOINT_SANDBOX == $this->environment) {
+            $parameters['apiTest'] = 1;
         }
 
         return sprintf(
