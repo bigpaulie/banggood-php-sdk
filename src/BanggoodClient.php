@@ -76,7 +76,7 @@ class BanggoodClient extends BaseClient
     public function getAccessToken(GetAccessTokenRequest $request):GetAccessTokenResponse
     {
         /** @var GetAccessTokenResponse $response */
-        $response = $this->request(__FUNCTION__, $request);
+        $response = $this->request(__FUNCTION__, $request, false);
         return $response;
     }
 
