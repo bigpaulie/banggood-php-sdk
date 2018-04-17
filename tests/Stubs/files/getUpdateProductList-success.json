@@ -1,0 +1,20 @@
+{
+  "code": 0,
+  "page": 1,
+  "page_size": 100,
+  "page_total": 1,
+  "product_total": "2",
+  "product_list": [
+    {
+      "product_id": 1060897,
+      "modify_date": "2016-11-24 04:27:23",
+      "state": 2
+    },
+    {
+      "product_id": 988674,
+      "modify_date": "2016-11-24 03:53:50",
+      "state": 2
+    }
+  ],
+  "lang": ""
+}

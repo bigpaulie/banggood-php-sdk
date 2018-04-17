@@ -20,6 +20,7 @@ use bigpaulie\banggood\Object\ProductList;
 use bigpaulie\banggood\Object\ShipmentList;
 use bigpaulie\banggood\Object\Stocks;
 use bigpaulie\banggood\Object\StockList;
+use bigpaulie\banggood\Object\UpdateProductList;
 use bigpaulie\banggood\Object\WarehouseList;
 use bigpaulie\banggood\Request\GetAccessTokenRequest;
 use bigpaulie\banggood\Request\GetCategoryListRequest;
@@ -28,6 +29,7 @@ use bigpaulie\banggood\Request\GetOrderHistoryRequest;
 use bigpaulie\banggood\Request\GetOrderInfoRequest;
 use bigpaulie\banggood\Request\GetProductInfoRequest;
 use bigpaulie\banggood\Request\GetProductListRequest;
+use bigpaulie\banggood\Request\GetProductUpdateListRequest;
 use bigpaulie\banggood\Request\GetShipmentsRequest;
 use bigpaulie\banggood\Request\GetStocksRequest;
 use bigpaulie\banggood\Request\GetTrackInfoRequest;
@@ -42,6 +44,7 @@ use bigpaulie\banggood\Response\GetProductListResponse;
 use bigpaulie\banggood\Response\GetShipmentsResponse;
 use bigpaulie\banggood\Response\GetStocksResponse;
 use bigpaulie\banggood\Response\GetTrackInfoResponse;
+use bigpaulie\banggood\Response\GetUpdateProductListResponse;
 use bigpaulie\banggood\Response\ImportOrderResponse;
 use GuzzleHttp\Client;
 use Mockery;
@@ -743,17 +746,68 @@ class BanggoodClientTest extends BanggoodTestCase
         $response = $banggoodClient->getOrderHistory($request);
     }
 
+    /**
+     * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     */
     public function testGetProductUpdateListShouldPass()
     {
+        /** @var string $json */
+        $json = loadJsonStub('getUpdateProductList-success');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetProductUpdateListRequest $request */
+        $request = new GetProductUpdateListRequest();
+
+        /** @var GetUpdateProductListResponse $response */
+        $response = $banggoodClient->getUpdateProductList($request);
+
+        $this->assertInstanceOf(GetUpdateProductListResponse::class, $response);
+        $this->assertEquals(0, $response->code);
+        $this->assertEquals('2', $response->productTotal);
+
+        $updateProductList = $response->productList[0];
+        $this->assertInstanceOf(UpdateProductList::class, $updateProductList);
+        $this->assertEquals(1060897, $updateProductList->productId);
+        $this->assertEquals('2016-11-24 04:27:23', $updateProductList->modifyDate);
+        $this->assertEquals(2, $updateProductList->state);
     }
 
+    /**
+     * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     *
+     * @expectedException \bigpaulie\banggood\Exception\BanggoodException
+     * @expectedExceptionCode 41010
+     */
     public function testGetProductUpdateListShouldFail()
     {
+        /** @var string $json */
+        $json = loadJsonStub('getUpdateProductList-error');
 
+        $httpClient = Mockery::mock(Client::class);
+        $httpClient->shouldReceive('send')
+            ->once()->andReturn(new ApiResponse($json));
+
+        /** @var BanggoodClient $banggoodClient */
+        $banggoodClient = new BanggoodClient($this->credentials, $httpClient);
+
+        /** @var GetProductUpdateListRequest $request */
+        $request = new GetProductUpdateListRequest();
+
+        /** @var GetUpdateProductListResponse $response */
+        $response = $banggoodClient->getUpdateProductList($request);
     }
 
-    public function tearDown()/* The :void return type declaration that should be here would cause a BC issue */
+    public function tearDown()
     {
         Mockery::close();
     }
