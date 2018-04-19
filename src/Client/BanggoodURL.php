@@ -39,7 +39,7 @@ class BanggoodURL
      */
     public static function compose(string $endpoint, array $parameters = [], string $environment): string
     {
-        if (!in_array($endpoint, self::$urls)) {
+        if (!array_key_exists($endpoint, self::$urls)) {
             throw new BanggoodException("Unknown API endpoint {$endpoint}");
         }
 
