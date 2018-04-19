@@ -53,6 +53,9 @@ class BaseClient
         array $headers = []
     ): ResponseInterface
     {
+        /** @var array $parameters */
+        $parameters = $request->getParameters();
+
         /**
          * All request except getAccessToken and importOrders requires
          * the presence of the access_token url parameter
@@ -80,7 +83,7 @@ class BaseClient
             /** @var Request $httpRequest */
             $httpRequest = new Request(
                 'POST',
-                BanggoodURL::compose($endpoint, $request->getParameters(), $this->environment),
+                BanggoodURL::compose($endpoint, $parameters, $this->environment),
                 $headers,
                 $body
             );
@@ -88,7 +91,7 @@ class BaseClient
             /** @var Request $httpRequest */
             $httpRequest = new Request(
                 'GET',
-                BanggoodURL::compose($endpoint, $request->getParameters(), $this->environment),
+                BanggoodURL::compose($endpoint, $parameters, $this->environment),
                 $headers
             );
         }
