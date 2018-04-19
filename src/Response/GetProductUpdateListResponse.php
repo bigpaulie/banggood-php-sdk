@@ -8,10 +8,10 @@ use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 
 /**
- * Class GetUpdateProductListResponse
+ * Class GetProductUpdateListResponse
  * @package bigpaulie\banggood\Response
  */
-class GetUpdateProductListResponse extends BaseResponse
+class GetProductUpdateListResponse extends BaseResponse
 {
     /**
      * Total record number for product brief information

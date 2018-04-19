@@ -27,7 +27,7 @@ use bigpaulie\banggood\Response\GetProductListResponse;
 use bigpaulie\banggood\Response\GetShipmentsResponse;
 use bigpaulie\banggood\Response\GetStocksResponse;
 use bigpaulie\banggood\Response\GetTrackInfoResponse;
-use bigpaulie\banggood\Response\GetUpdateProductListResponse;
+use bigpaulie\banggood\Response\GetProductUpdateListResponse;
 use bigpaulie\banggood\Response\ImportOrderResponse;
 use GuzzleHttp\Client;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
@@ -228,15 +228,15 @@ class BanggoodClient extends BaseClient
 
     /**
      * @param GetProductUpdateListRequest $request
-     * @return GetUpdateProductListResponse
+     * @return GetProductUpdateListResponse
      * @throws BanggoodException
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @see https://api.banggood.com/index.php?com=document&article_id=24
      */
-    public function getUpdateProductList(GetProductUpdateListRequest $request): GetUpdateProductListResponse
+    public function getProductUpdateList(GetProductUpdateListRequest $request): GetProductUpdateListResponse
     {
-        /** @var GetUpdateProductListResponse $response */
+        /** @var GetProductUpdateListResponse $response */
         $response = $this->request(__FUNCTION__, $request);
         return $response;
     }

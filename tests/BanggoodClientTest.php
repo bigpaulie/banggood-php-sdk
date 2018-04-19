@@ -45,7 +45,7 @@ use bigpaulie\banggood\Response\GetProductListResponse;
 use bigpaulie\banggood\Response\GetShipmentsResponse;
 use bigpaulie\banggood\Response\GetStocksResponse;
 use bigpaulie\banggood\Response\GetTrackInfoResponse;
-use bigpaulie\banggood\Response\GetUpdateProductListResponse;
+use bigpaulie\banggood\Response\GetProductUpdateListResponse;
 use bigpaulie\banggood\Response\ImportOrderResponse;
 use GuzzleHttp\Client;
 use Mockery;
@@ -767,10 +767,10 @@ class BanggoodClientTest extends BanggoodTestCase
         /** @var GetProductUpdateListRequest $request */
         $request = new GetProductUpdateListRequest();
 
-        /** @var GetUpdateProductListResponse $response */
-        $response = $banggoodClient->getUpdateProductList($request);
+        /** @var GetProductUpdateListResponse $response */
+        $response = $banggoodClient->getProductUpdateList($request);
 
-        $this->assertInstanceOf(GetUpdateProductListResponse::class, $response);
+        $this->assertInstanceOf(GetProductUpdateListResponse::class, $response);
         $this->assertEquals(0, $response->code);
         $this->assertEquals('2', $response->productTotal);
 
@@ -804,8 +804,8 @@ class BanggoodClientTest extends BanggoodTestCase
         /** @var GetProductUpdateListRequest $request */
         $request = new GetProductUpdateListRequest();
 
-        /** @var GetUpdateProductListResponse $response */
-        $response = $banggoodClient->getUpdateProductList($request);
+        /** @var GetProductUpdateListResponse $response */
+        $response = $banggoodClient->getProductUpdateList($request);
     }
 
     public function tearDown()
