@@ -53,59 +53,6 @@ class BaseClient
         array $headers = []
     ): ResponseInterface
     {
-        if ($isPostRequest) {
-            /** @var string accessToken */
-            $request->accessToken = $this->credentials->getAccessToken();
-
-            /** @var SerializationContext $context */
-            $context = (new SerializationContext())->shouldSerializeNull(false);
-
-            /** @var Serializer $body */
-            $body = $this->serializer->serialize($request, 'json', $context);
-
-            /** Set corresponding headers for this request */
-            $headers['Content-type'] = 'application/json';
-
-            /** @var Request $httpRequest */
-            $httpRequest = new Request(
-                'POST',
-                $this->composeURL($endpoint, null, $requiresToken),
-                $headers,
-                $body
-            );
-        } else {
-            /** @var Request $httpRequest */
-            $httpRequest = new Request(
-                'GET',
-                $this->composeURL($endpoint, $request->getParameters(), $requiresToken),
-                $headers
-            );
-        }
-
-        /** @var \Psr\Http\Message\ResponseInterface $response */
-        $response = $this->http->send($httpRequest);
-
-        /** @var string $type */
-        $type = sprintf('bigpaulie\\banggood\\Response\\%sResponse', ucfirst($endpoint));
-
-        /** @var ResponseInterface $deserialized */
-        $deserialized = $this->serializer->deserialize($response->getBody(), $type, 'json');
-
-        if ($deserialized->code != 0) {
-            throw new BanggoodException($deserialized->msg, $deserialized->code);
-        }
-
-        return $deserialized;
-    }
-
-    /**
-     * @param string $endpoint
-     * @param array|null $parameters
-     * @param bool $requiresToken
-     * @return string
-     */
-    private function composeURL(string $endpoint, $parameters = [], bool $requiresToken = true): string
-    {
         /**
          * All request except getAccessToken and importOrders requires
          * the presence of the access_token url parameter
@@ -117,18 +64,48 @@ class BaseClient
             $parameters['app_secret'] = $this->credentials->getAppSecret();
         }
 
-        /**
-         * In sandbox mode we need to always add this parameter
-         */
-        if (Banggood::ENDPOINT_SANDBOX == $this->environment) {
-            $parameters['apiTest'] = 1;
+        if ($isPostRequest) {
+            /** @var string accessToken */
+            $request->accessToken = $this->credentials->getAccessToken();
+
+            /** @var SerializationContext $context */
+            $context = (new SerializationContext())->shouldSerializeNull(false);
+
+            /** @var Serializer $body */
+            $body = $this->serializer->serialize($request, 'json', $context);
+
+            /** Set corresponding headers for this request */
+            $headers['Content-Type'] = 'application/json';
+
+            /** @var Request $httpRequest */
+            $httpRequest = new Request(
+                'POST',
+                BanggoodURL::compose($endpoint, $request->getParameters(), $this->environment),
+                $headers,
+                $body
+            );
+        } else {
+            /** @var Request $httpRequest */
+            $httpRequest = new Request(
+                'GET',
+                BanggoodURL::compose($endpoint, $request->getParameters(), $this->environment),
+                $headers
+            );
         }
 
-        return sprintf(
-            "%s/%s?%s",
-            $this->environment,
-            $endpoint,
-            http_build_query($parameters)
-        );
+        /** @var \Psr\Http\Message\ResponseInterface $response */
+        $response = $this->http->send($httpRequest);
+
+        /** @var string $type */
+        $type = sprintf('bigpaulie\\banggood\\Response\\%sResponse', ucfirst($endpoint));
+
+        /** @var ResponseInterface $deserialized */
+        $deserialized = $this->serializer->deserialize((string)$response->getBody(), $type, 'json');
+
+        if ($deserialized->code != 0) {
+            throw new BanggoodException($deserialized->msg, $deserialized->code);
+        }
+
+        return $deserialized;
     }
 }
