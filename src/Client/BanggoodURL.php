@@ -46,14 +46,14 @@ class BanggoodURL
         switch ($environment) {
             case Banggood::ENDPOINT_PRODUCTION:
                 return sprintf(
-                    '%s/%s%s', Banggood::ENDPOINT_PRODUCTION,
+                    '%s/%s?%s', Banggood::ENDPOINT_PRODUCTION,
                     self::$urls[$endpoint],
                     http_build_query($parameters)
                 );
             case Banggood::ENDPOINT_SANDBOX:
                 $parameters['apiTest'] = 1;
                 return sprintf(
-                    '%s/%s%s', Banggood::ENDPOINT_SANDBOX,
+                    '%s/%s?%s', Banggood::ENDPOINT_SANDBOX,
                     self::$urls[$endpoint],
                     http_build_query($parameters)
                 );
