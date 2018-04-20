@@ -10,12 +10,12 @@ use GuzzleHttp\Client;
 use Mockery;
 
 /**
- * Class BanggoodClientFactory
+ * Class BanggoodClientBuilder
  * This is a simple factory class to help you create the BanggoodClient easily
  *
  * @package bigpaulie\banggood
  */
-class BanggoodClientFactory
+class BanggoodClientBuilder
 {
     /**
      * Use this to make requests into the production API
@@ -35,27 +35,59 @@ class BanggoodClientFactory
     const TYPE_UNIT_TESTING = 'unit';
 
     /**
+     * @var Credentials|null $credentials
+     */
+    private $credentials = null;
+
+    /**
+     * @var string|null $environment
+     */
+    private $environment = null;
+
+    /**
      * @param Credentials $credentials
-     * @param string $type
+     * @return BanggoodClientBuilder
+     */
+    public function credentials(Credentials $credentials): BanggoodClientBuilder
+    {
+        $this->credentials = $credentials;
+        return $this;
+    }
+
+    /**
+     * @param string $environment
+     * @return BanggoodClientBuilder
+     */
+    public function environment(string $environment): BanggoodClientBuilder
+    {
+        $this->environment = $environment;
+        return $this;
+    }
+
+    /**
      * @return BanggoodClient
      * @throws InvalidArgumentException
      */
-    public function make(Credentials $credentials, string $type): BanggoodClient
+    public function build(): BanggoodClient
     {
         /** @var Client $httpClient */
         $httpClient = new Client();
 
-        switch ($type) {
+        if (is_null($this->credentials)) {
+            throw new InvalidArgumentException('Cannot build client, credentials are required');
+        }
+
+        switch ($this->environment) {
             case self::TYPE_PRODUCTION:
-                return new BanggoodClient($credentials, $httpClient, Banggood::ENDPOINT_PRODUCTION);
+                return new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_PRODUCTION);
             case self::TYPE_SANDBOX:
-                return new BanggoodClient($credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
+                return new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
             case self::TYPE_UNIT_TESTING:
                 /** @var Client $mockHttpClient */
                 $mockHttpClient = Mockery::mock(Client::class);
                 return new BanggoodClient(new Credentials(), $mockHttpClient, Banggood::ENDPOINT_SANDBOX);
             default:
-                throw new InvalidArgumentException("Unable to instantiate client of type {$type}");
+                throw new InvalidArgumentException("Unable to instantiate client of type {$this->environment}");
         }
     }
 }

@@ -4,14 +4,14 @@ namespace bigpaulie\banggod\test;
 
 
 use bigpaulie\banggood\BanggoodClient;
-use bigpaulie\banggood\BanggoodClientFactory;
+use bigpaulie\banggood\BanggoodClientBuilder;
 use bigpaulie\banggood\Client\Credentials;
 
 /**
- * Class BanggoodClientFactoryTest
+ * Class BanggoodClientBuilderTest
  * @package bigpaulie\banggod\test
  */
-class BanggoodClientFactoryTest extends BanggoodTestCase
+class BanggoodClientBuilderTest extends BanggoodTestCase
 {
     /**
      * @var Credentials $credentials
@@ -30,10 +30,12 @@ class BanggoodClientFactoryTest extends BanggoodTestCase
     /**
      * @throws \bigpaulie\banggood\Exception\InvalidArgumentException
      */
-    public function testMakeProductionClientShouldPass()
+    public function testBuildProductionClientShouldPass()
     {
-        $client = (new BanggoodClientFactory())
-            ->make($this->credentials, BanggoodClientFactory::TYPE_PRODUCTION);
+        $client = (new BanggoodClientBuilder())
+            ->credentials($this->credentials)
+            ->environment(BanggoodClientBuilder::TYPE_PRODUCTION)
+            ->build();
 
         $this->assertInstanceOf(BanggoodClient::class, $client);
     }
@@ -41,10 +43,12 @@ class BanggoodClientFactoryTest extends BanggoodTestCase
     /**
      * @throws \bigpaulie\banggood\Exception\InvalidArgumentException
      */
-    public function testMakeSandboxClientShouldPass()
+    public function testBuildSandboxClientShouldPass()
     {
-        $client = (new BanggoodClientFactory())
-            ->make($this->credentials, BanggoodClientFactory::TYPE_SANDBOX);
+        $client = (new BanggoodClientBuilder())
+            ->credentials($this->credentials)
+            ->environment(BanggoodClientBuilder::TYPE_SANDBOX)
+            ->build();
 
         $this->assertInstanceOf(BanggoodClient::class, $client);
     }
@@ -54,9 +58,11 @@ class BanggoodClientFactoryTest extends BanggoodTestCase
      *
      * @expectedException \bigpaulie\banggood\Exception\InvalidArgumentException
      */
-    public function testMakeUnknownClientShouldFail()
+    public function testBuildUnknownClientShouldFail()
     {
-        $client = (new BanggoodClientFactory())
-            ->make($this->credentials, 'unknown');
+        $client = (new BanggoodClientBuilder())
+            ->credentials(new Credentials())
+            ->environment('unknown')
+            ->build();
     }
 }

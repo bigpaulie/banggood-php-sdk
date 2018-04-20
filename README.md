@@ -3,6 +3,7 @@
 **This is an unofficial PHP SDK for Banggood API**
 
 The official documentation can be found [here](https://api.banggood.com/index.php?com=document&article_id=2)
+If you have any issues with the API and not necessarily with the SDK please address to Banggood support team rather than opening a issue here.
 
 ### Installation
 Install the package via composer using :
@@ -22,10 +23,19 @@ Make sure you autoload the annotations before you use the SDK by including the f
 \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
 ```
 
-#### Using a simple factory
-You can create an instance of BanggoodClient using a simple factory.
+#### Using a builder
+You can create an instance of BanggoodClient using a builder.
 
 ```php
 $credentials = new Credentials('appid', 'appsecret');
-$client = (new BanggoodClientFactory())->make($credentials, BanggoodClientFactory::TYPE_PRODUCTION);
+$client = (new BanggoodClientBuilder())
+            ->credentials($credentials)
+            ->environment(BanggoodClientFactory::TYPE_PRODUCTION)
+            ->build();
 ```
+
+### Contributions
+There are many ways you can contribute to the project.
+If you found a bug please report it as an issue, or create a fork fix the bug and submit a pull-request.
+
+***Please maintain the coding style and testing pattern !***
