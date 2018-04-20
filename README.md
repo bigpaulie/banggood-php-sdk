@@ -9,7 +9,7 @@ If you have any issues with the API and not necessarily with the SDK please addr
 Install the package via composer using :
 
 ```
-composer require bipaulie/banggood-php-sdk
+composer require bigpaulie/banggood-php-sdk
 ```
 
 ### Usage
