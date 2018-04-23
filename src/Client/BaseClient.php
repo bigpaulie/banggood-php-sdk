@@ -60,16 +60,12 @@ class BaseClient
          * All request except getAccessToken and importOrders requires
          * the presence of the access_token url parameter
          */
-        if ($requiresToken) {
-            $parameters['access_token'] = $this->credentials->getAccessToken();
-        } else {
+        if (!$requiresToken) {
             $parameters['app_id'] = $this->credentials->getAppId();
             $parameters['app_secret'] = $this->credentials->getAppSecret();
         }
 
         if ($isPostRequest) {
-            /** @var string accessToken */
-            $request->accessToken = $this->credentials->getAccessToken();
 
             /** @var SerializationContext $context */
             $context = (new SerializationContext())->shouldSerializeNull(false);

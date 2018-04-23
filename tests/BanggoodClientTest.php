@@ -380,7 +380,7 @@ class BanggoodClientTest extends BanggoodTestCase
         $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var ImportOrderRequest $request */
-        $request = new ImportOrderRequest();
+        $request = new ImportOrderRequest('asdfghjklqwertyuiopzxcvbnm');
 
         /** @var ImportOrderResponse $response */
         $response = $banggoodClient->importOrder($request);
@@ -405,7 +405,7 @@ class BanggoodClientTest extends BanggoodTestCase
         $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var ImportOrderRequest $request */
-        $request = new ImportOrderRequest();
+        $request = new ImportOrderRequest('asdfghjklqwertyuiopzxcvbnm');
 
         /** @var ImportOrderResponse $response */
         $response = $banggoodClient->importOrder($request);
@@ -446,7 +446,7 @@ class BanggoodClientTest extends BanggoodTestCase
         $banggoodClient = new BanggoodClient($this->credentials, $httpClient, Banggood::ENDPOINT_SANDBOX);
 
         /** @var ImportOrderRequest $request */
-        $request = new ImportOrderRequest();
+        $request = new ImportOrderRequest('asdfghjklqwertyuiopzxcvbnm');
 
         /** @var ImportOrderResponse $response */
         $response = $banggoodClient->importOrder($request);

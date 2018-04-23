@@ -124,6 +124,14 @@ class ImportOrderRequest implements RequestInterface
      */
     public $productList;
 
+    /**
+     * ImportOrderRequest constructor.
+     * @param string $accessToken
+     */
+    public function __construct(string $accessToken)
+    {
+        $this->accessToken = $accessToken;
+    }
 
     /**
      * Not used in this context.
