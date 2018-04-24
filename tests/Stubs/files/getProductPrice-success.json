@@ -1,0 +1,11 @@
+{
+  "code": 0,
+  "currency": "EUR",
+  "product_price": [
+    {
+      "poa_id": "1195",
+      "price": "8.62"
+    }
+  ],
+  "lang": "en"
+}

@@ -12,6 +12,7 @@ use bigpaulie\banggood\Request\GetOrderHistoryRequest;
 use bigpaulie\banggood\Request\GetOrderInfoRequest;
 use bigpaulie\banggood\Request\GetProductInfoRequest;
 use bigpaulie\banggood\Request\GetProductListRequest;
+use bigpaulie\banggood\Request\GetProductPriceRequest;
 use bigpaulie\banggood\Request\GetProductUpdateListRequest;
 use bigpaulie\banggood\Request\GetShipmentsRequest;
 use bigpaulie\banggood\Request\GetStocksRequest;
@@ -24,6 +25,7 @@ use bigpaulie\banggood\Response\GetOrderHistoryResponse;
 use bigpaulie\banggood\Response\GetOrderInfoResponse;
 use bigpaulie\banggood\Response\GetProductInfoResponse;
 use bigpaulie\banggood\Response\GetProductListResponse;
+use bigpaulie\banggood\Response\GetProductPriceResponse;
 use bigpaulie\banggood\Response\GetShipmentsResponse;
 use bigpaulie\banggood\Response\GetStocksResponse;
 use bigpaulie\banggood\Response\GetTrackInfoResponse;
@@ -237,6 +239,21 @@ class BanggoodClient extends BaseClient
     public function getProductUpdateList(GetProductUpdateListRequest $request): GetProductUpdateListResponse
     {
         /** @var GetProductUpdateListResponse $response */
+        $response = $this->request(__FUNCTION__, $request);
+        return $response;
+    }
+
+    /**
+     * @param GetProductPriceRequest $request
+     * @return GetProductPriceResponse
+     * @throws BanggoodException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @see https://api.banggood.com/index.php?com=document&article_id=300000016
+     */
+    public function getProductPrice(GetProductPriceRequest $request): GetProductPriceResponse
+    {
+        /** @var GetProductPriceResponse $response */
         $response = $this->request(__FUNCTION__, $request);
         return $response;
     }
