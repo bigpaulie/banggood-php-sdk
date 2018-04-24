@@ -3,6 +3,7 @@
 **This is an unofficial PHP SDK for Banggood API**
 
 The official documentation can be found [here](https://api.banggood.com/index.php?com=document&article_id=2)
+
 If you have any issues with the API and not necessarily with the SDK please address to Banggood support team rather than opening a issue here.
 
 ### Installation
