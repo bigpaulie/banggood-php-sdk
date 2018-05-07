@@ -279,7 +279,7 @@ class BanggoodClientTest extends BanggoodTestCase
         $this->assertEquals(0, $response->code);
         $this->assertInstanceOf(PoaList::class, $response->poaList[0]);
         $this->assertInstanceOf(WarehouseList::class, $response->warehouseList[0]);
-        $this->assertInstanceOf(ImageList::class, $response->imageList[0]);
+        $this->assertInstanceOf(ImageList::class, $response->imageList);
         $this->assertEquals("Digoo Series Goods", $response->productName);
     }
 

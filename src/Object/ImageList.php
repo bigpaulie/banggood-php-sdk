@@ -15,7 +15,7 @@ class ImageList
      * product image url(85*85).
      * @var string $home
      *
-     * @Type("string")
+     * @Type("array")
      */
     public $home;
 
@@ -23,7 +23,7 @@ class ImageList
      * product image url(120*120).
      * @var string $listGrid
      *
-     * @Type("string")
+     * @Type("array")
      * @SerializedName("list_grid")
      */
     public $listGrid;
@@ -32,7 +32,7 @@ class ImageList
      * product image url(163*163).
      * @var string $grid
      *
-     * @Type("string")
+     * @Type("array")
      */
     public $grid;
 
@@ -40,7 +40,7 @@ class ImageList
      * product image url(235*235).
      * @var string $gallery
      *
-     * @Type("string")
+     * @Type("array")
      */
     public $gallery;
 
@@ -48,7 +48,7 @@ class ImageList
      * product image url(361*361).
      * @var string $view
      *
-     * @Type("string")
+     * @Type("array")
      */
     public $view;
 
@@ -56,7 +56,7 @@ class ImageList
      * product image url(50*50).
      * @var string $otherItems
      *
-     * @Type("string")
+     * @Type("array")
      * @SerializedName("other_items")
      */
     public $otherItems;
@@ -65,7 +65,7 @@ class ImageList
      * product image url(600*600 or larger).
      * @var string $large
      *
-     * @Type("string")
+     * @Type("array")
      */
     public $large;
 }

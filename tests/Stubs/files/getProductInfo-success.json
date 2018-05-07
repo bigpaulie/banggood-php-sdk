@@ -24,10 +24,42 @@
     }
   ],
   "description": "description goes here",
-  "image_list": [
-    {
-      "large": "https://img.banggood.com/th.jpg"
+  "image_list": {
+    "home": {
+      "1": "https://img.staticbg.com/thumb/home/oaupload/banggood/images/A6/2F/1bf0d796-2311-41ee-b4ba-142b5c405de1.jpg",
+      "2": "https://img.staticbg.com/thumb/home/oaupload/banggood/images/8F/6E/abd3d0de-5e4c-4480-a6f4-b758d64a9adf.jpg",
+      "3": "https://img.staticbg.com/thumb/home/oaupload/banggood/images/F3/77/9816e27a-653b-494a-b807-ad189c8a5e7b.jpg"
+    },
+    "list_grid": {
+      "1": "https://img.staticbg.com/thumb/list_grid/oaupload/banggood/images/A6/2F/1bf0d796-2311-41ee-b4ba-142b5c405de1.jpg",
+      "2": "https://img.staticbg.com/thumb/list_grid/oaupload/banggood/images/8F/6E/abd3d0de-5e4c-4480-a6f4-b758d64a9adf.jpg",
+      "3": "https://img.staticbg.com/thumb/list_grid/oaupload/banggood/images/F3/77/9816e27a-653b-494a-b807-ad189c8a5e7b.jpg"
+    },
+    "grid": {
+      "1": "https://img.staticbg.com/thumb/grid/oaupload/banggood/images/A6/2F/1bf0d796-2311-41ee-b4ba-142b5c405de1.jpg",
+      "2": "https://img.staticbg.com/thumb/grid/oaupload/banggood/images/8F/6E/abd3d0de-5e4c-4480-a6f4-b758d64a9adf.jpg",
+      "3": "https://img.staticbg.com/thumb/grid/oaupload/banggood/images/F3/77/9816e27a-653b-494a-b807-ad189c8a5e7b.jpg"
+    },
+    "gallery": {
+      "1": "https://img.staticbg.com/thumb/gallery/oaupload/banggood/images/A6/2F/1bf0d796-2311-41ee-b4ba-142b5c405de1.jpg",
+      "2": "https://img.staticbg.com/thumb/gallery/oaupload/banggood/images/8F/6E/abd3d0de-5e4c-4480-a6f4-b758d64a9adf.jpg",
+      "3": "https://img.staticbg.com/thumb/gallery/oaupload/banggood/images/F3/77/9816e27a-653b-494a-b807-ad189c8a5e7b.jpg"
+    },
+    "view": {
+      "1": "https://img.staticbg.com/thumb/view/oaupload/banggood/images/A6/2F/1bf0d796-2311-41ee-b4ba-142b5c405de1.jpg",
+      "2": "https://img.staticbg.com/thumb/view/oaupload/banggood/images/8F/6E/abd3d0de-5e4c-4480-a6f4-b758d64a9adf.jpg",
+      "3": "https://img.staticbg.com/thumb/view/oaupload/banggood/images/F3/77/9816e27a-653b-494a-b807-ad189c8a5e7b.jpg"
+    },
+    "other_items": {
+      "1": "https://img.staticbg.com/thumb/other_items/oaupload/banggood/images/A6/2F/1bf0d796-2311-41ee-b4ba-142b5c405de1.jpg",
+      "2": "https://img.staticbg.com/thumb/other_items/oaupload/banggood/images/8F/6E/abd3d0de-5e4c-4480-a6f4-b758d64a9adf.jpg",
+      "3": "https://img.staticbg.com/thumb/other_items/oaupload/banggood/images/F3/77/9816e27a-653b-494a-b807-ad189c8a5e7b.jpg"
+    },
+    "large": {
+      "1": "https://img.staticbg.com/images/oaupload/banggood/images/A6/2F/1bf0d796-2311-41ee-b4ba-142b5c405de1.jpg",
+      "2": "https://img.staticbg.com/images/oaupload/banggood/images/8F/6E/abd3d0de-5e4c-4480-a6f4-b758d64a9adf.jpg",
+      "3": "https://img.staticbg.com/images/oaupload/banggood/images/F3/77/9816e27a-653b-494a-b807-ad189c8a5e7b.jpg"
     }
-  ],
+  },
   "lang": "en"
 }

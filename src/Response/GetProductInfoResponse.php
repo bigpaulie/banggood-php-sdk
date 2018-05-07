@@ -34,9 +34,9 @@ class GetProductInfoResponse extends BaseResponse
 
     /**
      * image of product
-     * @var ImageList[] $imageList
+     * @var ImageList $imageList
      *
-     * @Type("array<bigpaulie\banggood\Object\ImageList>")
+     * @Type("bigpaulie\banggood\Object\ImageList")
      * @SerializedName("image_list")
      */
     public $imageList;
