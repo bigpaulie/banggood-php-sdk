@@ -2,17 +2,17 @@
 
 namespace bigpaulie\banggood\Response;
 
-use bigpaulie\banggood\Object\ShipmentList;
+use bigpaulie\banggood\Object\ShipMethodList;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 
 class GetShipmentsResponse extends BaseResponse
 {
     /**
-     * @var ShipmentList[] $shipmentList
+     * @var ShipMethodList[] $shipmentList
      *
-     * @Type("array<bigpaulie\banggood\Object\ShipmentList>")
-     * @SerializedName("shipment_list")
+     * @Type("array<bigpaulie\banggood\Object\ShipMethodList>")
+     * @SerializedName("shipmethod_list")
      */
     public $shipmentList;
 }

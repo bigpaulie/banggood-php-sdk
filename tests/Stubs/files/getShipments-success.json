@@ -1,11 +1,17 @@
 {
   "code": 0,
-  "shipment_list": [
+  "shipmethod_list": [
     {
-      "shipmethod_code": "cndhl_cndhl",
-      "shipmethod_name": "Expedited Shipping Service",
-      "shipday": "5-8 business days",
-      "shipfee": "10.92"
+      "shipmethod_code": "upsexp_upsexp",
+      "shipmethod_name": "Dgm us mail",
+      "shipfee": 0,
+      "shipday": "3-7"
+    },
+    {
+      "shipmethod_code": "usps1_usps1",
+      "shipmethod_name": "Usps First Class",
+      "shipfee": 0,
+      "shipday": "2-5"
     }
   ],
   "lang": "en"

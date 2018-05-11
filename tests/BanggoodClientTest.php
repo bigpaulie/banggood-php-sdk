@@ -19,7 +19,7 @@ use bigpaulie\banggood\Object\Order\UserInfo;
 use bigpaulie\banggood\Object\PoaList;
 use bigpaulie\banggood\Object\ProductList;
 use bigpaulie\banggood\Object\ProductPrice;
-use bigpaulie\banggood\Object\ShipmentList;
+use bigpaulie\banggood\Object\ShipMethodList;
 use bigpaulie\banggood\Object\Stocks;
 use bigpaulie\banggood\Object\StockList;
 use bigpaulie\banggood\Object\UpdateProductList;
@@ -334,11 +334,11 @@ class BanggoodClientTest extends BanggoodTestCase
         $response = $banggoodClient->getShipments($request);
 
         $this->assertEquals(0, $response->code);
-        $this->assertInstanceOf(ShipmentList::class, $response->shipmentList[0]);
-        $this->assertEquals("cndhl_cndhl", $response->shipmentList[0]->shipMethodCode);
-        $this->assertEquals("Expedited Shipping Service", $response->shipmentList[0]->shipMethodName);
-        $this->assertEquals("5-8 business days", $response->shipmentList[0]->shipDay);
-        $this->assertEquals("10.92", $response->shipmentList[0]->shipFee);
+        $this->assertInstanceOf(ShipMethodList::class, $response->shipmentList[0]);
+        $this->assertEquals("upsexp_upsexp", $response->shipmentList[0]->shipMethodCode);
+        $this->assertEquals("Dgm us mail", $response->shipmentList[0]->shipMethodName);
+        $this->assertEquals("3-7", $response->shipmentList[0]->shipDay);
+        $this->assertEquals("0", $response->shipmentList[0]->shipFee);
     }
 
     /**

@@ -6,10 +6,10 @@ use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 
 /**
- * Class ShipmentList
+ * Class ShipMethodList
  * @package bigpaulie\banggood\Object
  */
-class ShipmentList
+class ShipMethodList
 {
     /**
      * Identifier of shipping-method.
