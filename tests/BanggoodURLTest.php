@@ -21,7 +21,7 @@ class BanggoodURLTest extends BanggoodTestCase
             ['unit' => 1],
             Banggood::ENDPOINT_PRODUCTION
         );
-        $this->assertEquals('https://api.banggood.com/product/GetProductPrice?unit=1', $actual);
+        $this->assertEquals('https://api.banggood.com/product/getProductPrice?unit=1', $actual);
     }
 
     /**
@@ -34,7 +34,7 @@ class BanggoodURLTest extends BanggoodTestCase
             ['unit' => 1],
             Banggood::ENDPOINT_SANDBOX
         );
-        $this->assertEquals('https://apibeta.banggood.com/product/GetProductPrice?unit=1&apiTest=1', $actual);
+        $this->assertEquals('https://apibeta.banggood.com/product/getProductPrice?unit=1&apiTest=1', $actual);
     }
 
     /**

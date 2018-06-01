@@ -15,7 +15,7 @@ class BanggoodURL
      * @var array $urls
      */
     private static $urls = [
-        'getProductPrice' => 'product/GetProductPrice',
+        'getProductPrice' => 'product/getProductPrice',
         'getAccessToken' => 'getAccessToken',
         'getCategoryList' => 'category/getCategoryList',
         'getProductList' => 'product/getProductList',

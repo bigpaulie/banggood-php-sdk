@@ -14,14 +14,6 @@ use JMS\Serializer\Annotation\SerializedName;
 class ProductPrice
 {
     /**
-     * @var string $productId
-     *
-     * @Type("string")
-     * @SerializedName("product_id")
-     */
-    public $productId;
-
-    /**
      * @var string $poaId
      *
      * @Type("string")
@@ -30,9 +22,9 @@ class ProductPrice
     public $poaId;
 
     /**
-     * @var WarehouseList[] $warehouse
+     * @var float
      *
-     * @Type("array<bigpaulie\banggood\Object\WarehouseList>")
+     * @Type("float")
      */
-    public $warehouse;
+    public $price;
 }

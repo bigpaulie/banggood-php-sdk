@@ -3,6 +3,7 @@
 namespace bigpaulie\banggood\Response;
 
 
+use bigpaulie\banggood\Object\ProductPrice;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 
@@ -20,10 +21,10 @@ class GetProductPriceResponse extends BaseResponse
     public $currency;
 
     /**
-     * @var array $productPrice
+     * @var ProductPrice[] $productPrice
      *
      * @Type("array<bigpaulie\banggood\Object\ProductPrice>")
-     * @SerializedName("product_price")
+     * @SerializedName("productPrice")
      */
     public $productPrice;
 }
