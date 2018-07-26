@@ -21,7 +21,7 @@ class ImportOrderRequest implements RequestInterface
      * @var string $accessToken
      *
      * @Type("string")
-     * @SerializedName("Access_token")
+     * @SerializedName("access_token")
      */
     public $accessToken;
 
