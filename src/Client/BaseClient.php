@@ -5,6 +5,7 @@ namespace bigpaulie\banggood\Client;
 
 use bigpaulie\banggood\Enum\Banggood;
 use bigpaulie\banggood\Exception\BanggoodException;
+use bigpaulie\banggood\Interfaces\Arrayable;
 use bigpaulie\banggood\Interfaces\RequestInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
@@ -68,20 +69,24 @@ class BaseClient
         if ($isPostRequest) {
 
             /** @var SerializationContext $context */
-            $context = (new SerializationContext())->shouldSerializeNull(false);
+            $context = (new SerializationContext())->setSerializeNull(false);
 
             /** @var Serializer $body */
-            $body = $this->serializer->serialize($request, 'json', $context);
+//            $body = $this->serializer->serialize($request, 'json', $context);
+
+            if ($request instanceof Arrayable) {
+                $body = $request->toArray();
+            }
 
             /** Set corresponding headers for this request */
-            $headers['Content-Type'] = 'application/json';
+            $headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
             /** @var Request $httpRequest */
             $httpRequest = new Request(
                 'POST',
                 BanggoodURL::compose($endpoint, $parameters, $this->environment),
                 $headers,
-                $body
+                http_build_query($body)
             );
         } else {
             /** @var Request $httpRequest */

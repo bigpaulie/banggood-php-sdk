@@ -2,6 +2,7 @@
 
 namespace bigpaulie\banggood\Request;
 
+use bigpaulie\banggood\Interfaces\Arrayable;
 use bigpaulie\banggood\Interfaces\RequestInterface;
 use bigpaulie\banggood\Object\Order\ProductList;
 use JMS\Serializer\Annotation\Type;
@@ -14,7 +15,7 @@ use JMS\Serializer\Annotation\SerializedName;
  *
  * @package bigpaulie\banggood\Request
  */
-class ImportOrderRequest implements RequestInterface
+class ImportOrderRequest implements RequestInterface, Arrayable
 {
     /**
      * Active token , from GetAccessToken API
@@ -117,10 +118,7 @@ class ImportOrderRequest implements RequestInterface
 
     /**
      * Detail of product user bought
-     * @var ProductList[] $productList
-     *
-     * @Type("array<bigpaulie\banggood\Object\Order\ProductList>")
-     * @SerializedName("product_list")
+     * @var array $productList
      */
     public $productList;
 
@@ -154,5 +152,28 @@ class ImportOrderRequest implements RequestInterface
     public function getParameters(): array
     {
         return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'access_token' => $this->accessToken,
+            'sale_record_id' => $this->saleRecordId,
+            'delivery_name' => $this->deliveryName,
+            'delivery_country' => $this->deliveryCountry,
+            'delivery_state' => $this->deliveryState,
+            'delivery_city' => $this->deliveryCity,
+            'delivery_street_address' => $this->deliveryStreetAddress,
+            'delivery_street_address2' => $this->deliveryStreetAddress2,
+            'delivery_postcode' => $this->deliveryPostCode,
+            'delivery_telephone' => $this->deliveryTelephone,
+            'product_total' => $this->productTotal,
+            'product_list' => $this->productList,
+            'currency' => $this->currency,
+            'lang' => $this->lang
+        ];
     }
 }

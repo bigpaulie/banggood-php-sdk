@@ -2,6 +2,7 @@
 
 namespace bigpaulie\banggood\Object\Order;
 
+use bigpaulie\banggood\Interfaces\Arrayable;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 
@@ -9,7 +10,7 @@ use JMS\Serializer\Annotation\SerializedName;
  * Class ProductList
  * @package bigpaulie\banggood\Object\Order
  */
-class ProductList
+class ProductList implements Arrayable
 {
     /**
      * Identifier of product, from GetProductList API
@@ -55,4 +56,18 @@ class ProductList
      * @SerializedName("shipmethod_code")
      */
     public $shipMethodCode;
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'product_id' => $this->productId,
+            'poa_id' => $this->poaId,
+            'quantity' => $this->quantity,
+            'warehouse' => $this->warehouse,
+            'shipmethod_code' => $this->shipMethodCode
+        ];
+    }
 }
