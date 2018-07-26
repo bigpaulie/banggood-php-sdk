@@ -125,6 +125,20 @@ class ImportOrderRequest implements RequestInterface
     public $productList;
 
     /**
+     * @var string
+     *
+     * @Type("string")
+     */
+    public $currency;
+
+    /**
+     * @var string
+     *
+     * @Type("string")
+     */
+    public $lang;
+
+    /**
      * ImportOrderRequest constructor.
      * @param string $accessToken
      */
