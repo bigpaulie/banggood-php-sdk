@@ -2,7 +2,10 @@
 
 namespace bigpaulie\banggood\Client;
 
-
+/**
+ * Class Credentials
+ * @package bigpaulie\banggood\Client
+ */
 class Credentials
 {
     /**

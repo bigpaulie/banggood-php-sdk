@@ -5,6 +5,7 @@ namespace bigpaulie\banggood;
 use bigpaulie\banggood\Client\BaseClient;
 use bigpaulie\banggood\Client\Credentials;
 use bigpaulie\banggood\Exception\BanggoodException;
+use bigpaulie\banggood\Exception\BanggoodPurchaseException;
 use bigpaulie\banggood\Request\GetAccessTokenRequest;
 use bigpaulie\banggood\Request\GetCategoryListRequest;
 use bigpaulie\banggood\Request\GetCountriesRequest;
@@ -143,21 +144,6 @@ class BanggoodClient extends BaseClient
     }
 
     /**
-     * @param ImportOrderRequest $request
-     * @return ImportOrderResponse
-     * @throws BanggoodException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @see https://api.banggood.com/index.php?com=document&article_id=14
-     */
-    public function importOrder(ImportOrderRequest $request): ImportOrderResponse
-    {
-        /** @var ImportOrderResponse $response */
-        $response = $this->request(__FUNCTION__, $request, true, true);
-        return $response;
-    }
-
-    /**
      * @param GetOrderInfoRequest $request
      * @return GetOrderInfoResponse
      * @throws BanggoodException
@@ -169,6 +155,22 @@ class BanggoodClient extends BaseClient
     {
         /** @var GetOrderInfoResponse $response */
         $response = $this->request(__FUNCTION__, $request);
+        return $response;
+    }
+
+    /**
+     * @param ImportOrderRequest $request
+     * @return ImportOrderResponse
+     * @throws BanggoodException
+     * @throws BanggoodPurchaseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @see https://api.banggood.com/index.php?com=document&article_id=14
+     */
+    public function importOrder(ImportOrderRequest $request): ImportOrderResponse
+    {
+        /** @var ImportOrderResponse $response */
+        $response = $this->request(__FUNCTION__, $request, true, true);
         return $response;
     }
 

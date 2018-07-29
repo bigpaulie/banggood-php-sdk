@@ -5,14 +5,21 @@ namespace bigpaulie\banggood\Client;
 
 use bigpaulie\banggood\Enum\Banggood;
 use bigpaulie\banggood\Exception\BanggoodException;
+use bigpaulie\banggood\Exception\BanggoodPurchaseException;
+use bigpaulie\banggood\Exception\InvalidArgumentException;
 use bigpaulie\banggood\Interfaces\Arrayable;
 use bigpaulie\banggood\Interfaces\RequestInterface;
+use bigpaulie\banggood\Response\BaseResponse;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
 use bigpaulie\banggood\Interfaces\ResponseInterface;
 
+/**
+ * Class BaseClient
+ * @package bigpaulie\banggood\Client
+ */
 class BaseClient
 {
     /**
@@ -44,6 +51,7 @@ class BaseClient
      * @param array $headers
      * @return ResponseInterface
      * @throws BanggoodException
+     * @throws BanggoodPurchaseException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function request(
@@ -67,16 +75,12 @@ class BaseClient
         }
 
         if ($isPostRequest) {
-
-            /** @var SerializationContext $context */
-            $context = (new SerializationContext())->setSerializeNull(false);
-
-            /** @var Serializer $body */
-//            $body = $this->serializer->serialize($request, 'json', $context);
-
-            if ($request instanceof Arrayable) {
-                $body = $request->toArray();
+            if (!$request instanceof Arrayable) {
+                throw new InvalidArgumentException('Malformed request received', 500);
             }
+
+            /** @var array $body */
+            $body = $request->toArray();
 
             /** Set corresponding headers for this request */
             $headers['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -103,11 +107,19 @@ class BaseClient
         /** @var string $type */
         $type = sprintf('bigpaulie\\banggood\\Response\\%sResponse', ucfirst($endpoint));
 
-        /** @var ResponseInterface $deserialized */
+        /** @var ResponseInterface|BaseResponse $deserialized */
         $deserialized = $this->serializer->deserialize((string)$response->getBody(), $type, 'json');
 
         if ($deserialized->code != 0) {
-            throw new BanggoodException($deserialized->msg, $deserialized->code);
+            switch ($deserialized->code) {
+                case 1:
+                case 12032:
+                case 12062:
+                case 12063:
+                    throw new BanggoodPurchaseException($deserialized->msg, $deserialized->code);
+                default:
+                    throw new BanggoodException($deserialized->msg, $deserialized->code);
+            }
         }
 
         return $deserialized;

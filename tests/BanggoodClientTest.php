@@ -7,6 +7,8 @@ use bigpaulie\banggod\test\Stubs\ApiResponse;
 use bigpaulie\banggood\BanggoodClient;
 use bigpaulie\banggood\Client\Credentials;
 use bigpaulie\banggood\Enum\Banggood;
+use bigpaulie\banggood\Exception\BanggoodException;
+use bigpaulie\banggood\Exception\BanggoodPurchaseException;
 use bigpaulie\banggood\Object\CatList;
 use bigpaulie\banggood\Object\Countries;
 use bigpaulie\banggood\Object\ImageList;
@@ -429,17 +431,16 @@ class BanggoodClientTest extends BanggoodTestCase
     }
 
     /**
+     * @param string $stub
+     * @return ImportOrderResponse
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \bigpaulie\banggood\Exception\BanggoodException
-     *
-     * @expectedException \bigpaulie\banggood\Exception\BanggoodException
-     * @expectedExceptionCode 31020
-     * @expectedExceptionMessage Error Account
+     * @throws \bigpaulie\banggood\Exception\BanggoodPurchaseException
      */
-    public function testImportOrderShouldFailWithException()
+    private function importOrderShouldFailWithException(string $stub = 'importOrder-error')
     {
         /** @var string $json */
-        $json = loadJsonStub('importOrder-error');
+        $json = loadJsonStub($stub);
 
         $httpClient = Mockery::mock(Client::class);
         $httpClient->shouldReceive('send')
@@ -453,6 +454,75 @@ class BanggoodClientTest extends BanggoodTestCase
 
         /** @var ImportOrderResponse $response */
         $response = $banggoodClient->importOrder($request);
+        return $response;
+    }
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     * @throws \bigpaulie\banggood\Exception\BanggoodPurchaseException
+     *
+     * @expectedException \bigpaulie\banggood\Exception\BanggoodException
+     * @expectedExceptionCode 31020
+     * @expectedExceptionMessage Error Account
+     */
+    public function testImportOrderShouldFailErrorAccount()
+    {
+        $this->importOrderShouldFailWithException();
+    }
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     *
+     * @expectedException \bigpaulie\banggood\Exception\BanggoodPurchaseException
+     * @expectedExceptionCode 1
+     * @expectedExceptionMessage Cart question
+     */
+    public function testImportOrderShouldFailCartQuestion()
+    {
+        $this->importOrderShouldFailWithException('importOrder-error-cart-question');
+    }
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \bigpaulie\banggood\Exception\BanggoodException
+     *
+     * @expectedException \bigpaulie\banggood\Exception\BanggoodPurchaseException
+     * @expectedExceptionCode 12032
+     * @expectedExceptionMessage Error country field
+     */
+    public function testImportOrderShouldFailErrorCountryField()
+    {
+        $this->importOrderShouldFailWithException('importOrder-error-country-field');
+    }
+
+    /**
+     * @throws BanggoodException
+     * @throws BanggoodPurchaseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @expectedException \bigpaulie\banggood\Exception\BanggoodPurchaseException
+     * @expectedExceptionCode 12062
+     * @expectedExceptionMessage Duplicate Sale_record_id
+     */
+    public function testImportOrderShouldFailDuplicateSaleRecordId()
+    {
+        $this->importOrderShouldFailWithException('importOrder-duplicate-sale-record-id');
+    }
+
+    /**
+     * @throws BanggoodException
+     * @throws BanggoodPurchaseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @expectedException \bigpaulie\banggood\Exception\BanggoodPurchaseException
+     * @expectedExceptionCode 12063
+     * @expectedExceptionMessage The number of prod
+     */
+    public function testImportOrderShouldFailNumberOfProducts()
+    {
+        $this->importOrderShouldFailWithException('importOrder-number-of-products');
     }
 
     /**
