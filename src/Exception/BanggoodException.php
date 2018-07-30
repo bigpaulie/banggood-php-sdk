@@ -41,4 +41,20 @@ class BanggoodException extends \Exception
         $this->request = $request;
         $this->response = $response;
     }
+
+    /**
+     * @return RequestInterface|null
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * @return ResponseInterface|null
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
 }
