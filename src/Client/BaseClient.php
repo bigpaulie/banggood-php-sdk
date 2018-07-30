@@ -116,9 +116,21 @@ class BaseClient
                 case 12032:
                 case 12062:
                 case 12063:
-                    throw new BanggoodPurchaseException($deserialized->msg, $deserialized->code);
+                    throw new BanggoodPurchaseException(
+                        $deserialized->msg,
+                        $deserialized->code,
+                        null,
+                        $request,
+                        $deserialized
+                    );
                 default:
-                    throw new BanggoodException($deserialized->msg, $deserialized->code);
+                    throw new BanggoodException(
+                        $deserialized->msg,
+                        $deserialized->code,
+                        null,
+                        $request,
+                        $deserialized
+                    );
             }
         }
 
