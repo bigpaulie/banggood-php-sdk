@@ -28,9 +28,9 @@ class SaleRecordIdList
     public $orderList;
 
     /**
-     * @var UserInfo[] $userInfo
+     * @var UserInfo $userInfo
      *
-     * @Type("array<bigpaulie\banggood\Object\Order\UserInfo>")
+     * @Type("bigpaulie\banggood\Object\Order\UserInfo")
      * @SerializedName("user_info")
      */
     public $userInfo;
