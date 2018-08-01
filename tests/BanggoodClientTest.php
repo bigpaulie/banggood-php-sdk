@@ -553,10 +553,11 @@ class BanggoodClientTest extends BanggoodTestCase
 
         $this->assertInstanceOf(SaleRecordIdList::class, $response->saleRecordIdList[0]);
         $this->assertInstanceOf(OrderList::class, $response->saleRecordIdList[0]->orderList[0]);
-        $this->assertInstanceOf(UserInfo::class, $response->saleRecordIdList[0]->userInfo[0]);
+        $this->assertInstanceOf(UserInfo::class, $response->saleRecordIdList[0]->userInfo);
     }
 
     /**
+     * @throws \Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \bigpaulie\banggood\Exception\BanggoodException
      *
@@ -584,6 +585,7 @@ class BanggoodClientTest extends BanggoodTestCase
     }
 
     /**
+     * @throws \Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \bigpaulie\banggood\Exception\BanggoodException
      */
@@ -612,6 +614,7 @@ class BanggoodClientTest extends BanggoodTestCase
     }
 
     /**
+     * @throws \Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \bigpaulie\banggood\Exception\BanggoodException
      *
@@ -640,6 +643,8 @@ class BanggoodClientTest extends BanggoodTestCase
 
     /**
      * This test should pass
+     *
+     * @throws \Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \bigpaulie\banggood\Exception\BanggoodException
      */

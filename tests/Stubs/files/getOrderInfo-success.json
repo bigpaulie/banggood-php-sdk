@@ -25,16 +25,14 @@
           ]
         }
       ],
-      "user_info": [
-        {
-          "delivery_country": "",
-          "delivery_name": "",
-          "delivery_street_address": "",
-          "delivery_street_address2": "",
-          "delivery_state": "",
-          "delivery_city": ""
-        }
-      ]
+      "user_info": {
+        "delivery_country": "",
+        "delivery_name": "",
+        "delivery_street_address": "",
+        "delivery_street_address2": "",
+        "delivery_state": "",
+        "delivery_city": ""
+      }
     }
   ],
   "lang": "en"
