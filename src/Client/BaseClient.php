@@ -44,6 +44,16 @@ class BaseClient
     protected $environment;
 
     /**
+     * These characters can be safely removed
+     * @var array
+     */
+    protected $removable = [
+        '\u00a3', // British pound symbol
+        '\u20ac', // Euro symbol
+        '\u0024', // Dollar symbol
+    ];
+
+    /**
      * @param string $endpoint
      * @param RequestInterface $request
      * @param bool $requiresToken
@@ -107,8 +117,11 @@ class BaseClient
         /** @var string $type */
         $type = sprintf('bigpaulie\\banggood\\Response\\%sResponse', ucfirst($endpoint));
 
+        /** @var string $filteredResponse */
+        $filteredResponse = str_replace($this->removable, '', (string)$response->getBody());
+
         /** @var ResponseInterface|BaseResponse $deserialized */
-        $deserialized = $this->serializer->deserialize((string)$response->getBody(), $type, 'json');
+        $deserialized = $this->serializer->deserialize($filteredResponse, $type, 'json');
 
         if ($deserialized->code != 0) {
             switch ($deserialized->code) {
